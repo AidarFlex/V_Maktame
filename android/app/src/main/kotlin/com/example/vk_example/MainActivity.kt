@@ -1,4 +1,4 @@
-package com.mavletbaevaidar.vk_example
+package com.example.vk_example
 
 import io.flutter.embedding.android.FlutterActivity
 
