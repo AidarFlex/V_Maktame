@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 void toast(String message) {
   Fluttertoast.showToast(
       msg: message,
@@ -28,24 +29,25 @@ void snackBarNetwork({String? msg, GlobalKey<ScaffoldState>? scaffoldState}) {
   );
 }
 
-
 Widget loadingIndicatorProgressBar({String? data}) {
-  return Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const CircularProgressIndicator(
-          backgroundColor: Colors.orange,
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Text(
-          data ?? "Setting up your account please wait..",
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-        )
-      ],
+  return Scaffold(
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const CircularProgressIndicator(
+            backgroundColor: Colors.orange,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            data ?? "Setting up your account please wait..",
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          )
+        ],
+      ),
     ),
   );
 }

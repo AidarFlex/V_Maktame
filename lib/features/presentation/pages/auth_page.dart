@@ -90,37 +90,35 @@ class _AuthPageState extends State<AuthPage> {
         },
         builder: (context, credentialState) {
           if (CredentialState is CredentialLoading) {
-            return Scaffold(
-              body: loadingIndicatorProgressBar(),
-            );
+            return loadingIndicatorProgressBar();
           }
           if (credentialState is CredentialSuccess) {
             return BlocBuilder<AuthCubit, AuthState>(
               builder: (context, authState) {
                 if (authState is Authenticated) {
-                  return const BodyWidget();
+                  return const HomePage();
                   // return const HomePage();
                 } else {
-                  return const BodyWidget();
+                  return const _BodyWidget();
                 }
               },
             );
           }
-          return const BodyWidget();
+          return const _BodyWidget();
         },
       ),
     );
   }
 }
 
-class BodyWidget extends StatefulWidget {
-  const BodyWidget({Key? key}) : super(key: key);
+class _BodyWidget extends StatefulWidget {
+  const _BodyWidget({Key? key}) : super(key: key);
 
   @override
-  State<BodyWidget> createState() => _BodyWidgetState();
+  State<_BodyWidget> createState() => _BodyWidgetState();
 }
 
-class _BodyWidgetState extends State<BodyWidget> {
+class _BodyWidgetState extends State<_BodyWidget> {
   @override
   Widget build(BuildContext context) {
     final circulareShape = MaterialStateProperty.all(
@@ -132,158 +130,150 @@ class _BodyWidgetState extends State<BodyWidget> {
         children: [
           const _InstallApp(),
           const SizedBox(height: 20),
-          Container(
-            width: double.infinity,
-            color: ColorTheme.appBarColor,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Мобильная версия поможет вам оставаться в МИСиС, даже если вы далеко от компьютера.',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w300,
-                      fontSize: 18,
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  Form(
-                    key: _scaffoldState,
-                    child: Column(
-                      children: [
-                        TextField(
-                          controller: _emailController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            labelText: 'Email',
-                          ),
-                          textInputAction: TextInputAction.next,
-                          // onFieldSubmitted: (_) {
-                          //   FocusScope.of(context)
-                          //       .requestFocus(_passwordFocusNode);
-                          // },
-                          // onSaved: (value) => _email = value!.trim(),
-                          // validator: (value) {
-                          //   if (value!.isEmpty) {
-                          //     return 'Что то с чем то';
-                          //   }
-                          //   return null;
-                          // },
-                        ),
-                        const SizedBox(height: 10),
-                        TextFormField(
-                          focusNode: _passwordFocusNode,
-                          obscureText: true,
-                          textInputAction: TextInputAction.next,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              labelText: 'Пароль',
-                              suffixIcon: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    _isShowPassword =
-                                        _isShowPassword == false ? true : false;
-                                  });
-                                },
-                              )),
-
-                          // onFieldSubmitted: (_) {
-                          //   _submit(context);
-                          // },
-                          // onSaved: (value) => _password = value!.trim(),
-                          // validator: (value) {
-                          //   if (value!.isEmpty) {
-                          //     return 'Что то с чем то';
-                          //   }
-                          //   return null;
-                          // },
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                _submit(context);
-                              },
-                              child: const Text('Войти'),
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                    ColorTheme.buttonColor),
-                                foregroundColor: MaterialStateProperty.all(
-                                    ColorTheme.appBarColor),
-                                shape: circulareShape,
-                              ),
-                            )),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'Забыли пароль?',
-                              style: TextStyle(fontWeight: FontWeight.w400),
-                            ),
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                  ColorTheme.appBarColor),
-                              foregroundColor: MaterialStateProperty.all(
-                                  ColorTheme.firstTextColor),
-                              shape: circulareShape,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 60),
-                        const Text(
-                          'Впервые в МИСиС',
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w300,
-                              color: ColorTheme.thirdColor),
-                        ),
-                        SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                // Navigator.of(context)
-                                //     .pushReplacementNamed(RegisterPage.id);
-                              },
-                              child: const Text('Зарегистрироваться'),
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                    ColorTheme.registerColor),
-                                foregroundColor: MaterialStateProperty.all(
-                                    ColorTheme.appBarColor),
-                                shape: circulareShape,
-                              ),
-                            )),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'Войти через Canvas',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                  ColorTheme.appBarColor),
-                              foregroundColor: MaterialStateProperty.all(
-                                  ColorTheme.firstTextColor),
-                              shape: circulareShape,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              'Мобильная версия поможет вам оставаться в МИСиС, даже если вы далеко от компьютера.',
+              style: TextStyle(
+                fontWeight: FontWeight.w300,
+                fontSize: 18,
               ),
+            ),
+          ),
+          const SizedBox(height: 15),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                TextField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Email',
+                  ),
+                  textInputAction: TextInputAction.next,
+                  // onFieldSubmitted: (_) {
+                  //   FocusScope.of(context)
+                  //       .requestFocus(_passwordFocusNode);
+                  // },
+                  // onSaved: (value) => _email = value!.trim(),
+                  // validator: (value) {
+                  //   if (value!.isEmpty) {
+                  //     return 'Что то с чем то';
+                  //   }
+                  //   return null;
+                  // },
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  focusNode: _passwordFocusNode,
+                  obscureText: true,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Пароль',
+                    // suffixIcon: InkWell(
+                    //   onTap: () {
+                    //     setState(() {
+                    //       _isShowPassword =
+                    //           _isShowPassword == false ? true : false;
+                    //     });
+                    //   },
+                    // ),
+                  ),
+
+                  // onFieldSubmitted: (_) {
+                  //   _submit(context);
+                  // },
+                  // onSaved: (value) => _password = value!.trim(),
+                  // validator: (value) {
+                  //   if (value!.isEmpty) {
+                  //     return 'Что то с чем то';
+                  //   }
+                  //   return null;
+                  // },
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _submit(context);
+                      },
+                      child: const Text('Войти'),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(ColorTheme.buttonColor),
+                        foregroundColor:
+                            MaterialStateProperty.all(ColorTheme.appBarColor),
+                        shape: circulareShape,
+                      ),
+                    )),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text(
+                      'Забыли пароль?',
+                      style: TextStyle(fontWeight: FontWeight.w400),
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(ColorTheme.appBarColor),
+                      foregroundColor:
+                          MaterialStateProperty.all(ColorTheme.firstTextColor),
+                      shape: circulareShape,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 60),
+                const Text(
+                  'Впервые в МИСиС',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w300,
+                      color: ColorTheme.thirdColor),
+                ),
+                SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushReplacementNamed(RegisterPage.id);
+                      },
+                      child: const Text('Зарегистрироваться'),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(ColorTheme.registerColor),
+                        foregroundColor:
+                            MaterialStateProperty.all(ColorTheme.appBarColor),
+                        shape: circulareShape,
+                      ),
+                    )),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text(
+                      'Войти через Canvas',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(ColorTheme.appBarColor),
+                      foregroundColor:
+                          MaterialStateProperty.all(ColorTheme.firstTextColor),
+                      shape: circulareShape,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           Align(
