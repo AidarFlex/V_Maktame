@@ -6,7 +6,6 @@ import 'package:vk_example/features/data/data_sources/firebase_remote_data_sourc
 import 'package:vk_example/features/data/repositories/firebase_repository_impl.dart';
 import 'package:vk_example/features/domain/repositories/firebase_repository.dart';
 import 'package:vk_example/features/domain/use_cases/create_new_post_usecase.dart';
-import 'package:vk_example/features/domain/use_cases/create_post_usecase.dart';
 import 'package:vk_example/features/domain/use_cases/get_create_current_user.dart';
 import 'package:vk_example/features/domain/use_cases/get_current_uid_usecase.dart';
 import 'package:vk_example/features/domain/use_cases/get_messages_usecases.dart';
@@ -37,8 +36,6 @@ Future<void> init() async {
   // UseCases
   sl.registerLazySingleton<CreateNewPostUseCase>(
       () => CreateNewPostUseCase(repository: sl.call()));
-  sl.registerLazySingleton<CreatePostUseCase>(
-      () => CreatePostUseCase(repository: sl.call()));
   sl.registerLazySingleton<GetCreateCurrentUserUseCase>(
       () => GetCreateCurrentUserUseCase(repository: sl.call()));
   sl.registerLazySingleton<GetCurrentUidUseCase>(

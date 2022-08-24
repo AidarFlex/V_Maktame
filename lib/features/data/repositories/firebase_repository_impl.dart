@@ -9,16 +9,8 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
 
   FirebaseRepositoryImpl({required this.remoteDataSource});
   @override
-  Future<void> createNewPost(PostEntity postEntity) {
-    // TODO: implement createNewPost
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> createPost(PostEntity postEntity) {
-    // TODO: implement createPost
-    throw UnimplementedError();
-  }
+  Future<void> createNewPost(PostEntity postEntity) async =>
+      await remoteDataSource.createNewPost(postEntity);
 
   @override
   Future<void> getCreateCurrentUser(UserEntity userEntity) async =>
@@ -29,25 +21,18 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
       await remoteDataSource.getCurrentUId();
 
   @override
-  Stream<List<ChatEntity>> getMessages(String channelId) {
-    // TODO: implement getMessages
-    throw UnimplementedError();
-  }
+  Stream<List<ChatEntity>> getMessages(String channelId) =>
+      remoteDataSource.getMessages(channelId);
 
   @override
-  Stream<List<PostEntity>> getPosts() {
-    // TODO: implement getPosts
-    throw UnimplementedError();
-  }
+  Stream<List<PostEntity>> getPosts() => remoteDataSource.getPosts();
 
   @override
   Future<bool> isSignIn() async => remoteDataSource.isSignIn();
 
   @override
-  Future<void> sendTextMessage(ChatEntity chatEntity) {
-    // TODO: implement sendTextMessage
-    throw UnimplementedError();
-  }
+  Future<void> sendTextMessage(ChatEntity chatEntity, String channelId) async =>
+      await remoteDataSource.sendTextMessage(chatEntity, channelId);
 
   @override
   Future<void> signIn(UserEntity userEntity) async =>

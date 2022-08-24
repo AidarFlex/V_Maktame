@@ -15,13 +15,13 @@ class MessageStyle extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.only(
               bottomRight:
-                  chatModel.userID == FirebaseAuth.instance.currentUser!.uid
+                  chatModel.userId == FirebaseAuth.instance.currentUser!.uid
                       ? Radius.zero
                       : const Radius.circular(15),
               topRight: const Radius.circular(15),
               topLeft: const Radius.circular(15),
               bottomLeft:
-                  chatModel.userID == FirebaseAuth.instance.currentUser!.uid
+                  chatModel.userId == FirebaseAuth.instance.currentUser!.uid
                       ? const Radius.circular(15)
                       : Radius.zero),
         ),
@@ -29,11 +29,11 @@ class MessageStyle extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment:
-                chatModel.userID == FirebaseAuth.instance.currentUser!.uid
+                chatModel.userId == FirebaseAuth.instance.currentUser!.uid
                     ? CrossAxisAlignment.end
                     : CrossAxisAlignment.start,
             mainAxisAlignment:
-                chatModel.userID == FirebaseAuth.instance.currentUser!.uid
+                chatModel.userId == FirebaseAuth.instance.currentUser!.uid
                     ? MainAxisAlignment.end
                     : MainAxisAlignment.start,
             children: [
