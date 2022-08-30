@@ -3,20 +3,19 @@ import 'package:vk_example/features/domain/entities/post_entity.dart';
 
 class PostModel extends PostEntity {
   const PostModel({
-    required String postId,
-    required String userId,
-    required String userName,
-    required Timestamp timestamp,
-    required String imageURL,
-    required String description,
+    postId,
+    userId,
+    userName,
+    timestamp,
+    imageURL,
+    description,
   }) : super(
-          postId: postId,
-          userId: userId,
-          userName: userName,
-          timestamp: timestamp,
-          imageURL: imageURL,
-          description: description,
-        );
+            postId: postId,
+            userId: userId,
+            userName: userName,
+            timestamp: timestamp,
+            imageURL: imageURL,
+            description: description);
 
   factory PostModel.fromJson(DocumentSnapshot snapshot) {
     return PostModel(

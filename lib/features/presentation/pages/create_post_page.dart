@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vk_example/features/data/data_sources/firebase_storage_provider.dart';
 import 'package:vk_example/features/domain/entities/post_entity.dart';
 import 'package:vk_example/features/presentation/cubit/post/post_cubit.dart';
+import 'package:vk_example/features/presentation/pages/home_page.dart';
 import 'package:vk_example/features/presentation/widgets/common.dart';
 
 final _scafflodState = GlobalKey<ScaffoldState>();
@@ -41,8 +42,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
             imageURL:
                 firebaseStorageProvider.uploadImage(image: image).toString(),
             description: _descriptionController.text));
-
-    Navigator.of(context).pop();
   }
 
   @override
@@ -86,10 +85,21 @@ class _CreatePostPageState extends State<CreatePostPage> {
                   ),
                   textInputAction: TextInputAction.done,
                   inputFormatters: [LengthLimitingTextInputFormatter(150)],
-                  onEditingComplete: () {
-                    _submit(image: imageFile);
-                  },
+                  // onEditingComplete: () => _submit(image: imageFile),
                 ),
+                const SizedBox(
+                  width: 10,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _submit(image: imageFile);
+                    Navigator.of(context).pushReplacementNamed(HomePage.id);
+                  },
+                  child: const SizedBox(
+                    width: 20,
+                    height: 20,
+                  ),
+                )
               ],
             ),
           ),

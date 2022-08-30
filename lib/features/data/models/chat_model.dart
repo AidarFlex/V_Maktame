@@ -3,10 +3,10 @@ import 'package:vk_example/features/domain/entities/chat_entity.dart';
 
 class ChatModel extends ChatEntity {
   const ChatModel({
-    required String userName,
-    required String userId,
-    required String message,
-    required Timestamp timestamp,
+    userName,
+    userId,
+    message,
+    timestamp,
   }) : super(
           userName: userName,
           userId: userId,

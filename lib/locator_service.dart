@@ -16,7 +16,9 @@ import 'package:vk_example/features/domain/use_cases/sign_in_usecase.dart';
 import 'package:vk_example/features/domain/use_cases/sign_out_usecase.dart';
 import 'package:vk_example/features/domain/use_cases/sign_up_usecase.dart';
 import 'package:vk_example/features/presentation/cubit/auth/auth_state.dart';
+import 'package:vk_example/features/presentation/cubit/chat/chat_cubit.dart';
 import 'package:vk_example/features/presentation/cubit/credential/credential_cubit.dart';
+import 'package:vk_example/features/presentation/cubit/post/post_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -31,6 +33,14 @@ Future<void> init() async {
         signInUseCase: sl.call(),
         signUpUseCase: sl.call(),
         getCreateCurrentUserUseCase: sl.call(),
+      ));
+  sl.registerFactory<PostCubit>(() => PostCubit(
+        createNewPostUseCase: sl.call(),
+        getPostsUseCase: sl.call(),
+      ));
+  sl.registerFactory<ChatCubit>(() => ChatCubit(
+        sendTextMessageUseCase: sl.call(),
+        getMessageUseCase: sl.call(),
       ));
 
   // UseCases

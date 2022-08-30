@@ -75,32 +75,17 @@ class _RegisterWidget extends StatefulWidget {
 
 class _RegisterWidgetState extends State<_RegisterWidget> {
   final _formKey = GlobalKey<FormState>();
-  late String _email;
-  late String _username;
-  late String _password;
 
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordAgainController = TextEditingController();
 
-  bool _isShowPassword = true;
-  String? _profileUrl;
-
-  late final FocusNode _passwordFocusNode;
-  late final FocusNode _usernameFocusNode;
-
-  @override
-  void initState() {
-    _passwordFocusNode = FocusNode();
-    _usernameFocusNode = FocusNode();
-    super.initState();
-  }
+  // bool _isShowPassword = true;
+  // String? _profileUrl;
 
   @override
   void dispose() {
-    _passwordFocusNode.dispose();
-    _usernameFocusNode.dispose();
     _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
@@ -201,7 +186,6 @@ class _RegisterWidgetState extends State<_RegisterWidget> {
                     const SizedBox(height: 10),
                     TextField(
                       controller: _usernameController,
-                      focusNode: _usernameFocusNode,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -213,7 +197,6 @@ class _RegisterWidgetState extends State<_RegisterWidget> {
                     const SizedBox(height: 10),
                     TextField(
                       controller: _passwordController,
-                      focusNode: _passwordFocusNode,
                       obscureText: true,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(

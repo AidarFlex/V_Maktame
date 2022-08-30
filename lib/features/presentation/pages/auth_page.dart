@@ -9,13 +9,9 @@ import 'package:vk_example/features/presentation/pages/home_page.dart';
 import 'package:vk_example/features/presentation/pages/register_page.dart';
 import 'package:vk_example/features/presentation/widgets/common.dart';
 
-String _email = '';
-String _password = '';
 final _emailController = TextEditingController();
 final _passwordController = TextEditingController();
-bool _isShowPassword = true;
 final _scaffoldState = GlobalKey<ScaffoldState>();
-late final FocusNode _passwordFocusNode;
 
 void _submit(BuildContext context) {
   FocusScope.of(context).unfocus();
@@ -43,21 +39,12 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   @override
-  void initState() {
-    _passwordFocusNode = FocusNode();
-    super.initState();
-  }
-
-  @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    _passwordFocusNode.dispose();
 
     super.dispose();
   }
-
-  // final _formKey = GlobalKey<FormState>();
 
   final circulareShape = MaterialStateProperty.all(
       RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)));
@@ -154,21 +141,10 @@ class _BodyWidgetState extends State<_BodyWidget> {
                     labelText: 'Email',
                   ),
                   textInputAction: TextInputAction.next,
-                  // onFieldSubmitted: (_) {
-                  //   FocusScope.of(context)
-                  //       .requestFocus(_passwordFocusNode);
-                  // },
-                  // onSaved: (value) => _email = value!.trim(),
-                  // validator: (value) {
-                  //   if (value!.isEmpty) {
-                  //     return 'Что то с чем то';
-                  //   }
-                  //   return null;
-                  // },
                 ),
                 const SizedBox(height: 10),
                 TextField(
-                  focusNode: _passwordFocusNode,
+                  controller: _passwordController,
                   obscureText: true,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
@@ -176,26 +152,7 @@ class _BodyWidgetState extends State<_BodyWidget> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     labelText: 'Пароль',
-                    // suffixIcon: InkWell(
-                    //   onTap: () {
-                    //     setState(() {
-                    //       _isShowPassword =
-                    //           _isShowPassword == false ? true : false;
-                    //     });
-                    //   },
-                    // ),
                   ),
-
-                  // onFieldSubmitted: (_) {
-                  //   _submit(context);
-                  // },
-                  // onSaved: (value) => _password = value!.trim(),
-                  // validator: (value) {
-                  //   if (value!.isEmpty) {
-                  //     return 'Что то с чем то';
-                  //   }
-                  //   return null;
-                  // },
                 ),
                 const SizedBox(
                   height: 15,

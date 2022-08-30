@@ -3,10 +3,10 @@ import 'package:vk_example/features/domain/entities/user_entity.dart';
 
 class UserModel extends UserEntity {
   const UserModel({
-    required String userID,
-    required String userName,
-    required String email,
-    required String password,
+    userID,
+    userName,
+    email,
+    password,
   }) : super(
           userID: userID,
           userName: userName,

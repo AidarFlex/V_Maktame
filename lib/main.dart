@@ -2,7 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vk_example/features/presentation/cubit/auth/auth_state.dart';
+import 'package:vk_example/features/presentation/cubit/chat/chat_cubit.dart';
 import 'package:vk_example/features/presentation/cubit/credential/credential_cubit.dart';
+import 'package:vk_example/features/presentation/cubit/post/post_cubit.dart';
 import 'package:vk_example/features/presentation/pages/auth_page.dart';
 import 'package:vk_example/features/presentation/pages/chat_page.dart';
 import 'package:vk_example/features/presentation/pages/create_post_page.dart';
@@ -15,7 +17,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-);
+  );
   await di.init();
   runApp(const MyApp());
 }
@@ -33,6 +35,12 @@ class MyApp extends StatelessWidget {
         BlocProvider<CredentialCubit>(
           create: (_) => di.sl<CredentialCubit>(),
         ),
+        BlocProvider<PostCubit>(
+          create: (_) => di.sl<PostCubit>()..getPosts(),
+        ),
+        BlocProvider<ChatCubit>(
+          create: (_) => di.sl<ChatCubit>(),
+        ),
       ],
       child: MaterialApp(
         home: const AuthPage(),
@@ -40,12 +48,12 @@ class MyApp extends StatelessWidget {
           AuthPage.id: (context) => const AuthPage(),
           RegisterPage.id: (context) => const RegisterPage(),
           HomePage.id: (context) => const HomePage(),
-          CreatePostPage.id: (context) => const CreatePostPage(),
+          CreatePostPage.id: (context) => const CreatePostPage(
+                postId: '',
+              ),
           ChatPage.id: (context) => const ChatPage(),
         },
       ),
     );
-    // BlocProvider<AuthCubit>(
-    //   create: (context) => AuthCubit(),
   }
 }
