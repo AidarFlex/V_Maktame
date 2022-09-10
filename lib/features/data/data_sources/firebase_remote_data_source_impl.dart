@@ -20,13 +20,13 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
     try {
       await firebaseFirestore
           .collection('posts')
-          .doc(postEntity.postId)
+          .doc(postEntity.postID)
           .set(PostModel(
-            postId: postEntity.postId,
-            userId: postEntity.userId,
+            postID: postEntity.postID,
+            userID: postEntity.userID,
             userName: postEntity.userName,
             timestamp: postEntity.timestamp,
-            imageURL: postEntity.imageURL,
+            imageUrl: postEntity.imageUrl,
             description: postEntity.description,
           ).toDocument());
     } catch (e) {

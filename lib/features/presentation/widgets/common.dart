@@ -13,8 +13,8 @@ void toast(String message) {
       fontSize: 16.0);
 }
 
-void snackBarNetwork({String? msg, GlobalKey<ScaffoldState>? scaffoldState}) {
-  scaffoldState!.currentState!.showSnackBar(
+void snackBarNetwork({String? msg, required BuildContext context}) {
+  ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       backgroundColor: Colors.red,
       duration: const Duration(seconds: 3),

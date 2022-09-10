@@ -3,38 +3,38 @@ import 'package:vk_example/features/domain/entities/post_entity.dart';
 
 class PostModel extends PostEntity {
   const PostModel({
-    postId,
-    userId,
+    postID,
+    userID,
     userName,
     timestamp,
-    imageURL,
+    imageUrl,
     description,
   }) : super(
-            postId: postId,
-            userId: userId,
+            postID: postID,
+            userID: userID,
             userName: userName,
             timestamp: timestamp,
-            imageURL: imageURL,
+            imageUrl: imageUrl,
             description: description);
 
   factory PostModel.fromJson(DocumentSnapshot snapshot) {
     return PostModel(
-      postId: snapshot.get('id'),
-      userId: snapshot.get('userID'),
+      postID: snapshot.get('postID'),
+      userID: snapshot.get('userID'),
       userName: snapshot.get('userName'),
       timestamp: snapshot.get('timestamp'),
-      imageURL: snapshot.get('imageURL'),
+      imageUrl: snapshot.get('imageUrl'),
       description: snapshot.get('description'),
     );
   }
 
   Map<String, dynamic> toDocument() {
     return {
-      "id": postId,
-      "userID": userId,
+      "postID": postID,
+      "userID": userID,
       "userName": userName,
       "timestamp": timestamp,
-      "imageURL": imageURL,
+      "imageUrl": imageUrl,
       "description": description,
     };
   }

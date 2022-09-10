@@ -11,8 +11,6 @@ import 'package:vk_example/features/presentation/pages/auth_page.dart';
 import 'package:vk_example/features/presentation/pages/home_page.dart';
 import 'package:vk_example/features/presentation/widgets/common.dart';
 
-final _scaffoldState = GlobalKey<ScaffoldState>();
-
 class RegisterPage extends StatefulWidget {
   static const String id = '/register_page';
   const RegisterPage({Key? key}) : super(key: key);
@@ -25,15 +23,10 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldState,
       backgroundColor: ColorTheme.colorTheme,
       appBar: AppBar(
         backgroundColor: ColorTheme.appBarColor,
         elevation: 0,
-        leading: const Icon(
-          Icons.arrow_back,
-          color: ColorTheme.firstTextColor,
-        ),
       ),
       body: BlocConsumer<CredentialCubit, CredentialState>(
         listener: (context, credentialState) {
@@ -41,7 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
             BlocProvider.of<AuthCubit>(context).loggedIn();
           }
           if (credentialState is CredentialFailure) {
-            snackBarNetwork(msg: "ошибка", scaffoldState: _scaffoldState);
+            snackBarNetwork(msg: "ошибка", context: context);
           }
         },
         builder: (context, credentialState) {

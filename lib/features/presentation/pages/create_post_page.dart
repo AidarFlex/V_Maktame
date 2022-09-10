@@ -7,15 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vk_example/features/data/data_sources/firebase_storage_provider.dart';
 import 'package:vk_example/features/domain/entities/post_entity.dart';
 import 'package:vk_example/features/presentation/cubit/post/post_cubit.dart';
-import 'package:vk_example/features/presentation/pages/home_page.dart';
-import 'package:vk_example/features/presentation/widgets/common.dart';
 
 final _scafflodState = GlobalKey<ScaffoldState>();
 
 class CreatePostPage extends StatefulWidget {
   static const id = 'create_post_page';
-  final String postId;
-  const CreatePostPage({Key? key, required this.postId}) : super(key: key);
+  const CreatePostPage({Key? key}) : super(key: key);
 
   @override
   _CreatePostPageState createState() => _CreatePostPageState();
@@ -23,31 +20,29 @@ class CreatePostPage extends StatefulWidget {
 
 class _CreatePostPageState extends State<CreatePostPage> {
   final firebaseStorageProvider = FirebaseStorageProvider();
-  final _descriptionController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  String _description = '';
 
   Future<void> _submit({required File image}) async {
     FocusScope.of(context).unfocus();
 
-    if (_descriptionController.text.isEmpty) {
-      toast('enter description');
+    if (!_formKey.currentState!.validate()) {
       return;
     }
 
+    _formKey.currentState!.save();
+
     BlocProvider.of<PostCubit>(context).createPost(
         postEntity: PostEntity(
-            postId: FirebaseFirestore.instance.doc('post').id,
-            userId: FirebaseAuth.instance.currentUser!.uid,
+            postID: FirebaseFirestore.instance.doc('posts').id,
+            userID: FirebaseAuth.instance.currentUser!.uid,
             userName: FirebaseAuth.instance.currentUser!.displayName!,
             timestamp: Timestamp.now(),
-            imageURL:
+            imageUrl:
                 firebaseStorageProvider.uploadImage(image: image).toString(),
-            description: _descriptionController.text));
-  }
+            description: _description));
 
-  @override
-  void dispose() {
-    _descriptionController.dispose();
-    super.dispose();
+    Navigator.of(context).pop();
   }
 
   @override
@@ -58,51 +53,31 @@ class _CreatePostPageState extends State<CreatePostPage> {
       appBar: AppBar(
         title: const Text('Create Post'),
       ),
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 1.4,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                      image: FileImage(imageFile),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                TextField(
-                  controller: _descriptionController,
-                  decoration: const InputDecoration(
-                    hintText: 'что то с чем то',
-                  ),
-                  textInputAction: TextInputAction.done,
-                  inputFormatters: [LengthLimitingTextInputFormatter(150)],
-                  // onEditingComplete: () => _submit(image: imageFile),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    _submit(image: imageFile);
-                    Navigator.of(context).pushReplacementNamed(HomePage.id);
-                  },
-                  child: const SizedBox(
-                    width: 20,
-                    height: 20,
-                  ),
-                )
-              ],
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          padding: const EdgeInsets.all(18),
+          children: [
+            Image.file(imageFile, fit: BoxFit.cover),
+            TextFormField(
+              onSaved: (value) => _description = value!,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please provide description";
+                }
+                return null;
+              },
+              decoration: const InputDecoration(
+                hintText: 'что то с чем то',
+              ),
+              textInputAction: TextInputAction.done,
+              inputFormatters: [LengthLimitingTextInputFormatter(150)],
+              onFieldSubmitted: (_) => _submit(image: imageFile),
             ),
-          ),
+            const SizedBox(
+              width: 10,
+            ),
+          ],
         ),
       ),
     );

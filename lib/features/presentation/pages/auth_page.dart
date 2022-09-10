@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:vk_example/common/color_theme.dart';
 import 'package:vk_example/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:vk_example/features/presentation/cubit/auth/auth_state.dart';
@@ -11,7 +12,6 @@ import 'package:vk_example/features/presentation/widgets/common.dart';
 
 final _emailController = TextEditingController();
 final _passwordController = TextEditingController();
-final _scaffoldState = GlobalKey<ScaffoldState>();
 
 void _submit(BuildContext context) {
   FocusScope.of(context).unfocus();
@@ -42,7 +42,6 @@ class _AuthPageState extends State<AuthPage> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-
     super.dispose();
   }
 
@@ -52,7 +51,6 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldState,
       backgroundColor: ColorTheme.colorTheme,
       appBar: AppBar(
         backgroundColor: ColorTheme.appBarColor,
@@ -67,12 +65,10 @@ class _AuthPageState extends State<AuthPage> {
         listener: (context, credentialState) {
           if (credentialState is CredentialSuccess) {
             BlocProvider.of<AuthCubit>(context).loggedIn();
-            // Navigator.of(context).pushReplacementNamed(HomePage.id);
           }
 
           if (credentialState is CredentialFailure) {
-            snackBarNetwork(
-                msg: 'Неправельные данные', scaffoldState: _scaffoldState);
+            snackBarNetwork(msg: 'Неправельные данные', context: context);
           }
         },
         builder: (context, credentialState) {
@@ -84,7 +80,6 @@ class _AuthPageState extends State<AuthPage> {
               builder: (context, authState) {
                 if (authState is Authenticated) {
                   return const HomePage();
-                  // return const HomePage();
                 } else {
                   return const _BodyWidget();
                 }
@@ -98,14 +93,9 @@ class _AuthPageState extends State<AuthPage> {
   }
 }
 
-class _BodyWidget extends StatefulWidget {
+class _BodyWidget extends StatelessWidget {
   const _BodyWidget({Key? key}) : super(key: key);
 
-  @override
-  State<_BodyWidget> createState() => _BodyWidgetState();
-}
-
-class _BodyWidgetState extends State<_BodyWidget> {
   @override
   Widget build(BuildContext context) {
     final circulareShape = MaterialStateProperty.all(
@@ -200,10 +190,10 @@ class _BodyWidgetState extends State<_BodyWidget> {
                 SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pushReplacementNamed(RegisterPage.id);
-                      },
+                      onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const RegisterPage())),
                       child: const Text('Зарегистрироваться'),
                       style: ButtonStyle(
                         backgroundColor:
