@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:io';
 import 'package:vk_example/features/data/data_sources/firebase_storage_provider.dart';
 import 'package:vk_example/features/domain/entities/post_entity.dart';
 import 'package:vk_example/features/presentation/cubit/post/post_cubit.dart';
@@ -32,14 +32,22 @@ class _CreatePostPageState extends State<CreatePostPage> {
 
     _formKey.currentState!.save();
 
+    FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+    late String imageUrl;
+    await firebaseStorage
+        .ref('image/${UniqueKey().toString()}.png')
+        .putFile(image)
+        .then((taskSnapshot) async {
+      imageUrl = await taskSnapshot.ref.getDownloadURL();
+    });
+
     BlocProvider.of<PostCubit>(context).createPost(
         postEntity: PostEntity(
-            postID: FirebaseFirestore.instance.doc('posts').id,
+            postID: FirebaseFirestore.instance.collection('posts').doc().id,
             userID: FirebaseAuth.instance.currentUser!.uid,
             userName: FirebaseAuth.instance.currentUser!.displayName!,
             timestamp: Timestamp.now(),
-            imageUrl:
-                firebaseStorageProvider.uploadImage(image: image).toString(),
+            imageUrl: imageUrl,
             description: _description));
 
     Navigator.of(context).pop();
@@ -70,8 +78,9 @@ class _CreatePostPageState extends State<CreatePostPage> {
               decoration: const InputDecoration(
                 hintText: 'что то с чем то',
               ),
+              autocorrect: false,
+              textCapitalization: TextCapitalization.none,
               textInputAction: TextInputAction.done,
-              inputFormatters: [LengthLimitingTextInputFormatter(150)],
               onFieldSubmitted: (_) => _submit(image: imageFile),
             ),
             const SizedBox(

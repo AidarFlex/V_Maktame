@@ -3,12 +3,10 @@ import 'package:vk_example/features/domain/entities/user_entity.dart';
 
 class UserModel extends UserEntity {
   const UserModel({
-    userID,
     userName,
     email,
     password,
   }) : super(
-          userID: userID,
           userName: userName,
           email: email,
           password: password,
@@ -16,7 +14,6 @@ class UserModel extends UserEntity {
 
   factory UserModel.fromJson(DocumentSnapshot snapshot) {
     return UserModel(
-      userID: snapshot.get('userID'),
       userName: snapshot.get('userName'),
       email: snapshot.get('email'),
       password: snapshot.get('password'),
@@ -25,7 +22,6 @@ class UserModel extends UserEntity {
 
   Map<String, dynamic> toDocument() {
     return {
-      "userID": userID,
       "userName": userName,
       "email": email,
       "password": password,

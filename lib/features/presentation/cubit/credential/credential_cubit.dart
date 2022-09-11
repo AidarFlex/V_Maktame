@@ -24,8 +24,8 @@ class CredentialCubit extends Cubit<CredentialState> {
   }) async {
     emit(CredentialLoading());
     try {
-      await signInUseCase.call(UserEntity(
-          email: email, password: password, userID: '', userName: ''));
+      await signInUseCase
+          .call(UserEntity(email: email, password: password, userName: ''));
       emit(CredentialSuccess());
     } on SocketException catch (_) {
       emit(CredentialFailure());
@@ -38,10 +38,7 @@ class CredentialCubit extends Cubit<CredentialState> {
     emit(CredentialLoading());
     try {
       await signUpUseCase.call(UserEntity(
-          userID: '',
-          userName: '',
-          email: user.email,
-          password: user.password));
+          userName: user.userName, email: user.email, password: user.password));
       await getCreateCurrentUserUseCase.call(user);
       emit(CredentialSuccess());
     } on SocketException catch (_) {

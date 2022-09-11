@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vk_example/common/color_theme.dart';
+import 'package:vk_example/features/data/models/user_model.dart';
 import 'package:vk_example/features/domain/entities/user_entity.dart';
 import 'package:vk_example/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:vk_example/features/presentation/cubit/auth/auth_state.dart';
@@ -120,9 +123,10 @@ class _RegisterWidgetState extends State<_RegisterWidget> {
 
     BlocProvider.of<CredentialCubit>(context).signUpSumbit(
         user: UserEntity(
-            userName: _usernameController.text,
-            email: _emailController.text,
-            password: _passwordController.text));
+      userName: _usernameController.text,
+      email: _emailController.text,
+      password: _passwordController.text,
+    ));
   }
 
   @override
@@ -201,7 +205,6 @@ class _RegisterWidgetState extends State<_RegisterWidget> {
                     const SizedBox(height: 10),
                     TextField(
                       controller: _passwordAgainController,
-                      // focusNode: _passwordFocusNode,
                       obscureText: true,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -211,13 +214,6 @@ class _RegisterWidgetState extends State<_RegisterWidget> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Row(
-                    //   children: [
-                    //     DropdownButton(items: null),
-                    //     DropdownButton(items: null),
-                    //     DropdownButton(items: null),
-                    //   ],
-                    // )
                     SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -233,7 +229,6 @@ class _RegisterWidgetState extends State<_RegisterWidget> {
                             shape: circulareShape,
                           ),
                         )),
-
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
