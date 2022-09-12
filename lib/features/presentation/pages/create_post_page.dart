@@ -21,7 +21,7 @@ class CreatePostPage extends StatefulWidget {
 class _CreatePostPageState extends State<CreatePostPage> {
   final firebaseStorageProvider = FirebaseStorageProvider();
   final _formKey = GlobalKey<FormState>();
-  String _description = '';
+  late String _description;
 
   Future<void> _submit({required File image}) async {
     FocusScope.of(context).unfocus();
@@ -32,22 +32,14 @@ class _CreatePostPageState extends State<CreatePostPage> {
 
     _formKey.currentState!.save();
 
-    FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-    late String imageUrl;
-    await firebaseStorage
-        .ref('image/${UniqueKey().toString()}.png')
-        .putFile(image)
-        .then((taskSnapshot) async {
-      imageUrl = await taskSnapshot.ref.getDownloadURL();
-    });
-
     BlocProvider.of<PostCubit>(context).createPost(
         postEntity: PostEntity(
             postID: FirebaseFirestore.instance.collection('posts').doc().id,
             userID: FirebaseAuth.instance.currentUser!.uid,
             userName: FirebaseAuth.instance.currentUser!.displayName!,
             timestamp: Timestamp.now(),
-            imageUrl: imageUrl,
+            imageUrl:
+                firebaseStorageProvider.uploadImage(image: image).toString(),
             description: _description));
 
     Navigator.of(context).pop();

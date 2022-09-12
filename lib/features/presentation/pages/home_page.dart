@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vk_example/common/color_theme.dart';
+import 'package:vk_example/features/domain/entities/chat_entity.dart';
 import 'package:vk_example/features/domain/entities/post_entity.dart';
 import 'package:vk_example/features/presentation/cubit/auth/auth_state.dart';
 import 'package:vk_example/features/presentation/cubit/post/post_cubit.dart';
@@ -68,15 +70,16 @@ class _HomePageState extends State<HomePage> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
-                            Navigator.of(context).pushNamed(ChatPage.id,
-                                arguments: PostEntity(
-                                    postID: filteredPosts[index].postID,
-                                    userID: filteredPosts[index].userID,
-                                    userName: filteredPosts[index].userName,
-                                    timestamp: filteredPosts[index].timestamp,
-                                    imageUrl: filteredPosts[index].imageUrl,
-                                    description:
-                                        filteredPosts[index].description));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => ChatPage(
+                                      chatEntity: ChatEntity(
+                                          userName: '',
+                                          userId: filteredPosts[index].postID,
+                                          message: '',
+                                          timestamp: Timestamp.now())),
+                                ));
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(18),
