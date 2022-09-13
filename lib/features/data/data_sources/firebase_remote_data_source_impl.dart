@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:vk_example/features/data/data_sources/firebase_remote_data_source.dart';
-import 'package:vk_example/features/data/models/chat_model.dart';
 import 'package:vk_example/features/data/models/post_model.dart';
+import 'package:vk_example/features/data/models/text_message_model.dart';
 import 'package:vk_example/features/data/models/user_model.dart';
+import 'package:vk_example/features/domain/entities/text_message_entity.dart';
 import 'package:vk_example/features/domain/entities/user_entity.dart';
 import 'package:vk_example/features/domain/entities/post_entity.dart';
-import 'package:vk_example/features/domain/entities/chat_entity.dart';
 
 class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
   final FirebaseFirestore firebaseFirestore;
@@ -59,15 +59,15 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
   Future<String> getCurrentUId() async => firebaseAuth.currentUser!.uid;
 
   @override
-  Stream<List<ChatEntity>> getMessages(String channelId) {
+  Stream<List<TextMessageEntity>> getMessages(String channelId) {
     return firebaseFirestore
         .collection('posts')
         .doc(channelId)
         .collection('chat')
-        .orderBy('timestamp')
+        .orderBy('timeStamp')
         .snapshots()
         .map((querySnapshot) => querySnapshot.docs
-            .map((snapshot) => ChatModel.fromJson(snapshot))
+            .map((snapshot) => TextMessageModel.fromJson(snapshot))
             .toList());
   }
 
@@ -86,19 +86,20 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
   Future<bool> isSignIn() async => firebaseAuth.currentUser?.uid != null;
 
   @override
-  Future<void> sendTextMessage(ChatEntity chatEntity, String channelId) async {
+  Future<void> sendTextMessage(
+      TextMessageEntity textMessageEntity, String channelId) async {
     try {
       final messageRef = firebaseFirestore
           .collection('posts')
           .doc(channelId)
           .collection('chat');
       final messageId = messageRef.doc().id;
-      await messageRef.doc(messageId).set(ChatModel(
-            userName: chatEntity.userName,
-            userId: chatEntity.userId,
-            message: chatEntity.message,
-            timestamp: chatEntity.timestamp,
-          ).toDocument());
+      await messageRef.doc(messageId).set(TextMessageModel(
+              message: textMessageEntity.message,
+              timeStamp: textMessageEntity.timeStamp,
+              userID: textMessageEntity.userID,
+              userName: textMessageEntity.userName)
+          .toDocument());
     } catch (e) {
       print(e);
     }

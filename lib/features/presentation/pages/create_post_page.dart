@@ -1,14 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:io';
 import 'package:vk_example/features/data/data_sources/firebase_storage_provider.dart';
 import 'package:vk_example/features/domain/entities/post_entity.dart';
 import 'package:vk_example/features/presentation/cubit/post/post_cubit.dart';
-
-final _scafflodState = GlobalKey<ScaffoldState>();
 
 class CreatePostPage extends StatefulWidget {
   static const id = 'create_post_page';
@@ -22,6 +19,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
   final firebaseStorageProvider = FirebaseStorageProvider();
   final _formKey = GlobalKey<FormState>();
   late String _description;
+  late String _imageUrl;
 
   Future<void> _submit({required File image}) async {
     FocusScope.of(context).unfocus();
@@ -29,6 +27,8 @@ class _CreatePostPageState extends State<CreatePostPage> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+
+    final firebaseStorageProvider = FirebaseStorageProvider();
 
     _formKey.currentState!.save();
 
@@ -49,7 +49,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
   Widget build(BuildContext context) {
     final File imageFile = ModalRoute.of(context)!.settings.arguments as File;
     return Scaffold(
-      key: _scafflodState,
       appBar: AppBar(
         title: const Text('Create Post'),
       ),

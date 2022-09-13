@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vk_example/features/domain/entities/chat_entity.dart';
+import 'package:vk_example/features/domain/entities/text_message_entity.dart';
 import 'package:vk_example/features/domain/use_cases/get_messages_usecases.dart';
 import 'package:vk_example/features/domain/use_cases/send_text_message_usecase.dart';
 import 'package:vk_example/features/presentation/cubit/chat/chat_state.dart';
@@ -21,9 +22,10 @@ class ChatCubit extends Cubit<ChatState> {
   }
 
   Future<void> sendTextMessage(
-      {required ChatEntity chatEntity, required String channelId}) async {
+      {required TextMessageEntity textMessageEntity,
+      required String channelId}) async {
     try {
-      await sendTextMessageUseCase.call(chatEntity, channelId);
+      await sendTextMessageUseCase.call(textMessageEntity, channelId);
     } on SocketException catch (_) {
       emit(ChatFailure());
     } catch (_) {

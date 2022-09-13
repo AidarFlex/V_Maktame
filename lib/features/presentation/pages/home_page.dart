@@ -75,10 +75,9 @@ class _HomePageState extends State<HomePage> {
                                 MaterialPageRoute(
                                   builder: (_) => ChatPage(
                                       chatEntity: ChatEntity(
-                                          userName: '',
-                                          userId: filteredPosts[index].postID,
-                                          message: '',
-                                          timestamp: Timestamp.now())),
+                                    userName: '',
+                                    userID: filteredPosts[index].postID,
+                                  )),
                                 ));
                           },
                           child: Padding(

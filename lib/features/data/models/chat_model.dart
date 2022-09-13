@@ -4,31 +4,31 @@ import 'package:vk_example/features/domain/entities/chat_entity.dart';
 class ChatModel extends ChatEntity {
   const ChatModel({
     userName,
-    userId,
-    message,
-    timestamp,
+    userID,
+    // message,
+    // timeStamp,
   }) : super(
           userName: userName,
-          userId: userId,
-          message: message,
-          timestamp: timestamp,
+          userID: userID,
+          // message: message,
+          // timeStamp: timeStamp,
         );
 
   factory ChatModel.fromJson(DocumentSnapshot snapshot) {
     return ChatModel(
       userName: snapshot.get('userName'),
-      userId: snapshot.get('userID'),
-      message: snapshot.get('message'),
-      timestamp: snapshot.get('timestamp'),
+      userID: snapshot.get('userID'),
+      // message: snapshot.get('message'),
+      // timeStamp: snapshot.get('timeStamp'),
     );
   }
 
   Map<String, dynamic> toDocument() {
     return {
       "userName": userName,
-      "userID": userId,
-      "message": message,
-      "timestamp": timestamp,
+      "userID": userID,
+      // "message": message,
+      // "timeStamp": timeStamp,
     };
   }
 }

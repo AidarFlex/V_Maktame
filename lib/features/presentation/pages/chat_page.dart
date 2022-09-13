@@ -4,6 +4,7 @@ import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vk_example/features/domain/entities/chat_entity.dart';
+import 'package:vk_example/features/domain/entities/text_message_entity.dart';
 import 'package:vk_example/features/presentation/cubit/chat/chat_cubit.dart';
 import 'package:vk_example/features/presentation/cubit/chat/chat_state.dart';
 import 'package:vk_example/features/presentation/cubit/post/post_cubit.dart';
@@ -27,7 +28,7 @@ class _ChatPageState extends State<ChatPage> {
     _messageEditingController.addListener(() {
       setState(() {
         BlocProvider.of<ChatCubit>(context)
-            .getMessage(channelId: widget.chatEntity.userId);
+            .getMessage(channelId: widget.chatEntity.userID);
       });
     });
     super.initState();
@@ -178,13 +179,13 @@ class _ChatListWidgetState extends State<_ChatListWidget> {
         itemCount: widget.chatState.messages.length,
         itemBuilder: (_, index) {
           final message = widget.chatState.messages[index];
-          if (message.userId == widget.chatEntity.userId) {
+          if (message.userID == widget.chatEntity.userID) {
             return _ChatLayout(
               userName: "Me",
               alignName: TextAlign.end,
               color: Colors.lightGreen[400]!,
               timeStamp:
-                  DateFormat('hh:mm a').format(message.timestamp.toDate()),
+                  DateFormat('hh:mm a').format(message.timeStamp.toDate()),
               align: TextAlign.left,
               boxAlign: CrossAxisAlignment.start,
               crossAlign: CrossAxisAlignment.end,
@@ -197,7 +198,7 @@ class _ChatListWidgetState extends State<_ChatListWidget> {
               userName: message.userName,
               alignName: TextAlign.end,
               timeStamp:
-                  DateFormat('hh:mm a').format(message.timestamp.toDate()),
+                  DateFormat('hh:mm a').format(message.timeStamp.toDate()),
               align: TextAlign.left,
               boxAlign: CrossAxisAlignment.start,
               crossAlign: CrossAxisAlignment.start,
@@ -327,18 +328,16 @@ class _SendMessageTextFieldState extends State<_SendMessageTextField> {
                     width: 10,
                   ),
                   Expanded(
-                    child: Container(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxHeight: 60),
-                        child: Scrollbar(
-                          child: TextField(
-                            style: const TextStyle(fontSize: 14),
-                            controller: _messageEditingController,
-                            maxLines: null,
-                            decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Type a message"),
-                          ),
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxHeight: 60),
+                      child: Scrollbar(
+                        child: TextField(
+                          style: const TextStyle(fontSize: 14),
+                          controller: _messageEditingController,
+                          maxLines: null,
+                          decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Type a message"),
                         ),
                       ),
                     ),
@@ -368,12 +367,12 @@ class _SendMessageTextFieldState extends State<_SendMessageTextField> {
                       if (_messageEditingController.text.isEmpty) {
                       } else {
                         BlocProvider.of<ChatCubit>(context).sendTextMessage(
-                            chatEntity: ChatEntity(
-                                userName: widget.chatEntity.userName,
-                                userId: widget.chatEntity.userId,
+                            textMessageEntity: TextMessageEntity(
                                 message: _messageEditingController.text,
-                                timestamp: Timestamp.now()),
-                            channelId: widget.chatEntity.userId);
+                                userID: widget.chatEntity.userID,
+                                userName: widget.chatEntity.userName,
+                                timeStamp: Timestamp.now()),
+                            channelId: widget.chatEntity.userID);
                         setState(() {
                           _messageEditingController.clear();
                         });

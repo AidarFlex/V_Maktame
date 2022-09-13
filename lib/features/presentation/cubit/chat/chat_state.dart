@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:vk_example/features/domain/entities/chat_entity.dart';
+import 'package:vk_example/features/domain/entities/text_message_entity.dart';
 
 abstract class ChatState extends Equatable {
   const ChatState();
@@ -16,7 +17,7 @@ class ChatLoading extends ChatState {
 }
 
 class ChatLoaded extends ChatState {
-  final List<ChatEntity> messages;
+  final List<TextMessageEntity> messages;
 
   const ChatLoaded({required this.messages});
 

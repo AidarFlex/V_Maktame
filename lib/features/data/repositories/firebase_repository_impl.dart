@@ -1,4 +1,5 @@
 import 'package:vk_example/features/data/data_sources/firebase_remote_data_source.dart';
+import 'package:vk_example/features/domain/entities/text_message_entity.dart';
 import 'package:vk_example/features/domain/entities/user_entity.dart';
 import 'package:vk_example/features/domain/entities/post_entity.dart';
 import 'package:vk_example/features/domain/entities/chat_entity.dart';
@@ -21,7 +22,7 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
       await remoteDataSource.getCurrentUId();
 
   @override
-  Stream<List<ChatEntity>> getMessages(String channelId) =>
+  Stream<List<TextMessageEntity>> getMessages(String channelId) =>
       remoteDataSource.getMessages(channelId);
 
   @override
@@ -31,8 +32,9 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
   Future<bool> isSignIn() async => remoteDataSource.isSignIn();
 
   @override
-  Future<void> sendTextMessage(ChatEntity chatEntity, String channelId) async =>
-      await remoteDataSource.sendTextMessage(chatEntity, channelId);
+  Future<void> sendTextMessage(
+          TextMessageEntity textMessageEntity, String channelId) async =>
+      await remoteDataSource.sendTextMessage(textMessageEntity, channelId);
 
   @override
   Future<void> signIn(UserEntity userEntity) async =>
