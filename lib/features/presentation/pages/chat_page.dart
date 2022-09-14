@@ -7,12 +7,6 @@ import 'package:vk_example/features/domain/entities/chat_entity.dart';
 import 'package:vk_example/features/domain/entities/text_message_entity.dart';
 import 'package:vk_example/features/presentation/cubit/chat/chat_cubit.dart';
 import 'package:vk_example/features/presentation/cubit/chat/chat_state.dart';
-import 'package:vk_example/features/presentation/cubit/post/post_cubit.dart';
-
-String _message = '';
-
-final _messageEditingController = TextEditingController();
-final _scrollController = ScrollController();
 
 class ChatPage extends StatefulWidget {
   final ChatEntity chatEntity;
@@ -23,14 +17,16 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  final TextEditingController _messageEditingController =
+      TextEditingController();
+  final _scrollController = ScrollController();
   @override
   void initState() {
     _messageEditingController.addListener(() {
-      setState(() {
-        BlocProvider.of<ChatCubit>(context)
-            .getMessage(channelId: widget.chatEntity.userID);
-      });
+      setState(() {});
     });
+    BlocProvider.of<ChatCubit>(context)
+        .getMessage(channelId: widget.chatEntity.userID);
     super.initState();
   }
 
@@ -53,9 +49,8 @@ class _ChatPageState extends State<ChatPage> {
           if (chatState is ChatLoaded) {
             return Column(
               children: [
-                _ChatListWidget(
-                    chatState: chatState, chatEntity: widget.chatEntity),
-                _SendMessageTextField(chatEntity: widget.chatEntity),
+                _chatListWidget(chatState),
+                SendMessageTextField(),
               ],
             );
           }
@@ -64,121 +59,16 @@ class _ChatPageState extends State<ChatPage> {
           );
         },
       ),
-
-      //  SafeArea(
-      //   child: Column(
-      //     children: [
-      //       Expanded(
-      //         child: StreamBuilder<QuerySnapshot>(
-      //           stream: FirebaseFirestore.instance
-      //               .collection('posts')
-      //               .doc(post.id)
-      //               .collection('chat')
-      //               .orderBy('timeStamp')
-      //               .snapshots(),
-      //           builder: (context, snapshot) {
-      //             if (snapshot.hasError) {
-      //               return const Center(
-      //                 child: Text('Error'),
-      //               );
-      //             }
-
-      //             if (snapshot.connectionState == ConnectionState.waiting ||
-      //                 snapshot.connectionState == ConnectionState.none) {
-      //               return const Center(
-      //                 child: CircularProgressIndicator(),
-      //               );
-      //             }
-      //             return ListView.builder(
-      //                 itemCount: snapshot.data?.docs.length ?? 0,
-      //                 itemBuilder: (context, index) {
-      //                   final QueryDocumentSnapshot doc =
-      //                       snapshot.data!.docs[index];
-      //                   final ChatModel chatModel = ChatModel(
-      //                       userName: doc['userName'],
-      //                       userId: doc['userID'],
-      //                       message: doc['message'],
-      //                       timestamp: doc['timeStamp']);
-      //                   return Align(
-      //                       alignment: chatModel.userId ==
-      //                               FirebaseAuth.instance.currentUser!.uid
-      //                           ? Alignment.centerRight
-      //                           : Alignment.centerLeft,
-      //                       child: MessageStyle(chatModel));
-      //                 });
-      //           },
-      //         ),
-      //       ),
-      //       SizedBox(
-      //         height: 50,
-      //         child: Row(
-      //           children: [
-      //             Expanded(
-      //                 child: Padding(
-      //               padding: const EdgeInsets.only(left: 5),
-      //               child: TextField(
-      //                 controller: _textEditingController,
-      //                 maxLines: 2,
-      //                 decoration:
-      //                     const InputDecoration(hintText: 'Enter message'),
-      //                 onChanged: (value) {
-      //                   _message = value;
-      //                 },
-      //               ),
-      //             )),
-      //             IconButton(
-      //               onPressed: () {
-      //                 FirebaseFirestore.instance
-      //                     .collection('posts')
-      //                     // .doc(post.id)
-      //                     .collection('chat')
-      //                     .add({
-      //                       'userID': FirebaseAuth.instance.currentUser!.uid,
-      //                       'userName':
-      //                           FirebaseAuth.instance.currentUser!.displayName,
-      //                       'message': _message,
-      //                       'timeStamp': Timestamp.now(),
-      //                     })
-      //                     .then((value) => log('chat dog added'))
-      //                     .catchError((onError) =>
-      //                         log('Error has occurred white adding chat doc'));
-      //                 _textEditingController.clear();
-      //                 setState(() {
-      //                   _message = '';
-      //                 });
-      //               },
-      //               icon: const Icon(Icons.arrow_forward_ios_rounded),
-      //             ),
-      //           ],
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ),
     );
   }
-}
 
-class _ChatListWidget extends StatefulWidget {
-  final ChatEntity chatEntity;
-  final ChatLoaded chatState;
-  const _ChatListWidget(
-      {Key? key, required this.chatState, required this.chatEntity})
-      : super(key: key);
-
-  @override
-  State<_ChatListWidget> createState() => _ChatListWidgetState();
-}
-
-class _ChatListWidgetState extends State<_ChatListWidget> {
-  @override
-  Widget build(BuildContext context) {
+  Widget _chatListWidget(ChatLoaded chatState) {
     return Expanded(
       child: ListView.builder(
         controller: _scrollController,
-        itemCount: widget.chatState.messages.length,
+        itemCount: chatState.messages.length,
         itemBuilder: (_, index) {
-          final message = widget.chatState.messages[index];
+          final message = chatState.messages[index];
           if (message.userID == widget.chatEntity.userID) {
             return _ChatLayout(
               userName: "Me",
@@ -210,93 +100,8 @@ class _ChatListWidgetState extends State<_ChatListWidget> {
       ),
     );
   }
-}
 
-class _ChatLayout extends StatelessWidget {
-  final String text;
-  final String timeStamp;
-  final Color color;
-  final TextAlign align;
-  final CrossAxisAlignment boxAlign;
-  final BubbleNip nip;
-  final CrossAxisAlignment crossAlign;
-  final TextAlign alignName;
-  final String? userName;
-  const _ChatLayout(
-      {Key? key,
-      required this.text,
-      required this.timeStamp,
-      required this.color,
-      required this.align,
-      required this.boxAlign,
-      required this.crossAlign,
-      required this.alignName,
-      this.userName,
-      required this.nip})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: crossAlign,
-      children: [
-        ConstrainedBox(
-          constraints: BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width * 0.90,
-          ),
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            margin: const EdgeInsets.all(3),
-            child: Bubble(
-              color: color,
-              nip: nip,
-              child: Column(
-                crossAxisAlignment: crossAlign,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    userName ?? '',
-                    textAlign: alignName,
-                    style: const TextStyle(
-                        fontSize: 17, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    text,
-                    textAlign: align,
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  Text(
-                    timeStamp,
-                    textAlign: align,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.black.withOpacity(
-                        .4,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        )
-      ],
-    );
-  }
-}
-
-class _SendMessageTextField extends StatefulWidget {
-  final ChatEntity chatEntity;
-  const _SendMessageTextField({Key? key, required this.chatEntity})
-      : super(key: key);
-
-  @override
-  State<_SendMessageTextField> createState() => _SendMessageTextFieldState();
-}
-
-class _SendMessageTextFieldState extends State<_SendMessageTextField> {
-  @override
-  Widget build(BuildContext context) {
+  Widget SendMessageTextField() {
     return Container(
       margin: const EdgeInsets.only(bottom: 10, left: 4, right: 4),
       child: Row(
@@ -401,3 +206,110 @@ class _SendMessageTextFieldState extends State<_SendMessageTextField> {
     );
   }
 }
+
+// class _ChatListWidget extends StatefulWidget {
+//   final ChatEntity chatEntity;
+//   final ChatLoaded chatState;
+//   const _ChatListWidget(
+//       {Key? key, required this.chatState, required this.chatEntity})
+//       : super(key: key);
+
+//   @override
+//   State<_ChatListWidget> createState() => _ChatListWidgetState();
+// }
+
+// class _ChatListWidgetState extends State<_ChatListWidget> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return
+//   }
+// }
+
+class _ChatLayout extends StatelessWidget {
+  final String text;
+  final String timeStamp;
+  final Color color;
+  final TextAlign align;
+  final CrossAxisAlignment boxAlign;
+  final BubbleNip nip;
+  final CrossAxisAlignment crossAlign;
+  final TextAlign alignName;
+  final String? userName;
+  const _ChatLayout(
+      {Key? key,
+      required this.text,
+      required this.timeStamp,
+      required this.color,
+      required this.align,
+      required this.boxAlign,
+      required this.crossAlign,
+      required this.alignName,
+      this.userName,
+      required this.nip})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: crossAlign,
+      children: [
+        ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * 0.90,
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            margin: const EdgeInsets.all(3),
+            child: Bubble(
+              color: color,
+              nip: nip,
+              child: Column(
+                crossAxisAlignment: crossAlign,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    userName ?? '',
+                    textAlign: alignName,
+                    style: const TextStyle(
+                        fontSize: 17, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    text,
+                    textAlign: align,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  Text(
+                    timeStamp,
+                    textAlign: align,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.black.withOpacity(
+                        .4,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+// class _SendMessageTextField extends StatefulWidget {
+//   final ChatEntity chatEntity;
+//   const _SendMessageTextField({Key? key, required this.chatEntity})
+//       : super(key: key);
+
+//   @override
+//   State<_SendMessageTextField> createState() => _SendMessageTextFieldState();
+// }
+
+// class _SendMessageTextFieldState extends State<_SendMessageTextField> {
+//   @override
+//   Widget build(BuildContext context) {
+
+//   }
+// }

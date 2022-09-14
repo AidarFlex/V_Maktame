@@ -1,12 +1,9 @@
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vk_example/common/color_theme.dart';
 import 'package:vk_example/features/domain/entities/chat_entity.dart';
-import 'package:vk_example/features/domain/entities/post_entity.dart';
 import 'package:vk_example/features/presentation/cubit/auth/auth_state.dart';
 import 'package:vk_example/features/presentation/cubit/post/post_cubit.dart';
 import 'package:vk_example/features/presentation/cubit/post/post_state.dart';
@@ -70,12 +67,13 @@ class _HomePageState extends State<HomePage> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
+                            BlocProvider.of<PostCubit>(context).getPosts();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (_) => ChatPage(
                                       chatEntity: ChatEntity(
-                                    userName: '',
+                                    userName: filteredPosts[index].userName,
                                     userID: filteredPosts[index].postID,
                                   )),
                                 ));

@@ -77,9 +77,6 @@ class _RegisterWidgetState extends State<_RegisterWidget> {
   final _passwordController = TextEditingController();
   final _passwordAgainController = TextEditingController();
 
-  // bool _isShowPassword = true;
-  // String? _profileUrl;
-
   @override
   void dispose() {
     _usernameController.dispose();
@@ -91,8 +88,6 @@ class _RegisterWidgetState extends State<_RegisterWidget> {
   }
 
   void _submit(BuildContext context) {
-    FocusScope.of(context).unfocus();
-
     if (_usernameController.text.isEmpty) {
       toast('Напищшите ник');
       return;
@@ -229,23 +224,6 @@ class _RegisterWidgetState extends State<_RegisterWidget> {
                             shape: circulareShape,
                           ),
                         )),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed(AuthPage.id);
-                        },
-                        child: const Text('Назад'),
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(ColorTheme.appBarColor),
-                          foregroundColor:
-                              MaterialStateProperty.all(ColorTheme.buttonColor),
-                          shape: circulareShape,
-                        ),
-                      ),
-                    ),
                     const SizedBox(
                       height: 10,
                     ),

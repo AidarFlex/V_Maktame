@@ -22,13 +22,18 @@ class _CreatePostPageState extends State<CreatePostPage> {
   late String _imageUrl;
 
   Future<void> _submit({required File image}) async {
-    FocusScope.of(context).unfocus();
-
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    final firebaseStorageProvider = FirebaseStorageProvider();
+    String getImage() {
+      FirebaseStorageProvider.uploadImage(image: image).then((value) {
+        setState(() {
+          _imageUrl = value;
+        });
+      });
+      return _imageUrl;
+    }
 
     _formKey.currentState!.save();
 
@@ -38,8 +43,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
             userID: FirebaseAuth.instance.currentUser!.uid,
             userName: FirebaseAuth.instance.currentUser!.displayName!,
             timestamp: Timestamp.now(),
-            imageUrl:
-                firebaseStorageProvider.uploadImage(image: image).toString(),
+            imageUrl: getImage(),
             description: _description));
 
     Navigator.of(context).pop();

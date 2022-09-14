@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:vk_example/common/color_theme.dart';
 import 'package:vk_example/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:vk_example/features/presentation/cubit/auth/auth_state.dart';
@@ -9,25 +8,6 @@ import 'package:vk_example/features/presentation/cubit/credential/cretential_sta
 import 'package:vk_example/features/presentation/pages/home_page.dart';
 import 'package:vk_example/features/presentation/pages/register_page.dart';
 import 'package:vk_example/features/presentation/widgets/common.dart';
-
-final _emailController = TextEditingController();
-final _passwordController = TextEditingController();
-
-void _submit(BuildContext context) {
-  FocusScope.of(context).unfocus();
-
-  if (_emailController.text.isEmpty) {
-    toast('Напишите email');
-    return;
-  }
-  if (_passwordController.text.isEmpty) {
-    toast('Напишите пароль');
-    return;
-  }
-
-  BlocProvider.of<CredentialCubit>(context).signInSumbit(
-      email: _emailController.text, password: _passwordController.text);
-}
 
 class AuthPage extends StatefulWidget {
   static const String id = '/auth_page';
@@ -38,10 +18,27 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  void _submit(BuildContext context) {
+    if (emailController.text.isEmpty) {
+      toast('Напишите email');
+      return;
+    }
+    if (passwordController.text.isEmpty) {
+      toast('Напишите пароль');
+      return;
+    }
+
+    BlocProvider.of<CredentialCubit>(context).signInSumbit(
+        email: emailController.text, password: passwordController.text);
+  }
+
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
@@ -81,23 +78,18 @@ class _AuthPageState extends State<AuthPage> {
                 if (authState is Authenticated) {
                   return const HomePage();
                 } else {
-                  return const _BodyWidget();
+                  return _bodyWidget();
                 }
               },
             );
           }
-          return const _BodyWidget();
+          return _bodyWidget();
         },
       ),
     );
   }
-}
 
-class _BodyWidget extends StatelessWidget {
-  const _BodyWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _bodyWidget() {
     final circulareShape = MaterialStateProperty.all(
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)));
 
@@ -107,120 +99,131 @@ class _BodyWidget extends StatelessWidget {
         children: [
           const _InstallApp(),
           const SizedBox(height: 20),
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              'Мобильная версия поможет вам оставаться в МИСиС, даже если вы далеко от компьютера.',
-              style: TextStyle(
-                fontWeight: FontWeight.w300,
-                fontSize: 18,
+          Container(
+            width: double.infinity,
+            color: ColorTheme.appBarColor,
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Мобильная версия поможет вам оставаться в МИСиС, даже если вы далеко от компьютера.',
+                style: TextStyle(
+                  fontWeight: FontWeight.w300,
+                  fontSize: 18,
+                ),
               ),
             ),
           ),
-          const SizedBox(height: 15),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                TextField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+          Container(
+              width: double.infinity,
+              color: ColorTheme.appBarColor,
+              child: const SizedBox(height: 15)),
+          Container(
+            width: double.infinity,
+            color: ColorTheme.appBarColor,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  TextField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      labelText: 'Email',
                     ),
-                    labelText: 'Email',
+                    textInputAction: TextInputAction.next,
                   ),
-                  textInputAction: TextInputAction.next,
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: passwordController,
+                    obscureText: true,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      labelText: 'Пароль',
                     ),
-                    labelText: 'Пароль',
                   ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                SizedBox(
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _submit(context);
+                        },
+                        child: const Text('Войти'),
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(ColorTheme.buttonColor),
+                          foregroundColor:
+                              MaterialStateProperty.all(ColorTheme.appBarColor),
+                          shape: circulareShape,
+                        ),
+                      )),
+                  SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        _submit(context);
-                      },
-                      child: const Text('Войти'),
+                      onPressed: () {},
+                      child: const Text(
+                        'Забыли пароль?',
+                        style: TextStyle(fontWeight: FontWeight.w400),
+                      ),
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(ColorTheme.buttonColor),
-                        foregroundColor:
                             MaterialStateProperty.all(ColorTheme.appBarColor),
+                        foregroundColor: MaterialStateProperty.all(
+                            ColorTheme.firstTextColor),
                         shape: circulareShape,
                       ),
-                    )),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Забыли пароль?',
-                      style: TextStyle(fontWeight: FontWeight.w400),
-                    ),
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(ColorTheme.appBarColor),
-                      foregroundColor:
-                          MaterialStateProperty.all(ColorTheme.firstTextColor),
-                      shape: circulareShape,
                     ),
                   ),
-                ),
-                const SizedBox(height: 60),
-                const Text(
-                  'Впервые в МИСиС',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w300,
-                      color: ColorTheme.thirdColor),
-                ),
-                SizedBox(
+                  const SizedBox(height: 60),
+                  const Text(
+                    'Впервые в МИСиС',
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w300,
+                        color: ColorTheme.thirdColor),
+                  ),
+                  SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const RegisterPage())),
+                        child: const Text('Зарегистрироваться'),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              ColorTheme.registerColor),
+                          foregroundColor:
+                              MaterialStateProperty.all(ColorTheme.appBarColor),
+                          shape: circulareShape,
+                        ),
+                      )),
+                  SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => const RegisterPage())),
-                      child: const Text('Зарегистрироваться'),
+                      onPressed: () {},
+                      child: const Text(
+                        'Войти через Canvas',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(ColorTheme.registerColor),
-                        foregroundColor:
                             MaterialStateProperty.all(ColorTheme.appBarColor),
+                        foregroundColor: MaterialStateProperty.all(
+                            ColorTheme.firstTextColor),
                         shape: circulareShape,
                       ),
-                    )),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Войти через Canvas',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(ColorTheme.appBarColor),
-                      foregroundColor:
-                          MaterialStateProperty.all(ColorTheme.firstTextColor),
-                      shape: circulareShape,
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Align(

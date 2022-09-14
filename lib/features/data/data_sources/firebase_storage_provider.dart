@@ -7,5 +7,9 @@ class FirebaseStorageProvider {
   static Future<String> uploadImage({required File image}) async {
     final ref =
         FirebaseStorage.instance.ref("images/${UniqueKey().toString()}.png");
+    UploadTask uploadTask = ref.putFile(image);
+    String imageUrl =
+        await (await uploadTask.whenComplete(() {})).ref.getDownloadURL();
+    return imageUrl;
   }
 }
