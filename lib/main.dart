@@ -9,6 +9,7 @@ import 'package:vk_example/features/presentation/cubit/post/post_cubit.dart';
 import 'package:vk_example/features/presentation/pages/auth_page.dart';
 import 'package:vk_example/features/presentation/pages/create_post_page.dart';
 import 'package:vk_example/features/presentation/pages/home_page.dart';
+import 'package:vk_example/features/presentation/pages/register_page.dart';
 import 'package:vk_example/firebase_options.dart';
 import 'package:vk_example/locator_service.dart' as di;
 
@@ -56,6 +57,8 @@ class MyApp extends StatelessWidget {
               },
             );
           },
+          // '/home_page': (context) => const HomePage(),
+          '/register_page': (context) => const RegisterPage(),
           '/create_post_page': (context) => const CreatePostPage(),
         },
       ),

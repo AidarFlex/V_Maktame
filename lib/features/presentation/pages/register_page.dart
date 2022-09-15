@@ -15,7 +15,6 @@ import 'package:vk_example/features/presentation/pages/home_page.dart';
 import 'package:vk_example/features/presentation/widgets/common.dart';
 
 class RegisterPage extends StatefulWidget {
-  static const String id = '/register_page';
   const RegisterPage({Key? key}) : super(key: key);
 
   @override
@@ -23,69 +22,10 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorTheme.colorTheme,
-      appBar: AppBar(
-        backgroundColor: ColorTheme.appBarColor,
-        elevation: 0,
-      ),
-      body: BlocConsumer<CredentialCubit, CredentialState>(
-        listener: (context, credentialState) {
-          if (credentialState is CredentialSuccess) {
-            BlocProvider.of<AuthCubit>(context).loggedIn();
-          }
-          if (credentialState is CredentialFailure) {
-            snackBarNetwork(msg: "ошибка", context: context);
-          }
-        },
-        builder: (context, credentialState) {
-          if (credentialState is CredentialLoading) {
-            return loadingIndicatorProgressBar();
-          }
-          if (credentialState is CredentialSuccess) {
-            return BlocBuilder<AuthCubit, AuthState>(
-              builder: (context, authState) {
-                if (authState is Authenticated) {
-                  return const HomePage();
-                } else {
-                  return const _RegisterWidget();
-                }
-              },
-            );
-          }
-          return const _RegisterWidget();
-        },
-      ),
-    );
-  }
-}
-
-class _RegisterWidget extends StatefulWidget {
-  const _RegisterWidget({Key? key}) : super(key: key);
-
-  @override
-  State<_RegisterWidget> createState() => _RegisterWidgetState();
-}
-
-class _RegisterWidgetState extends State<_RegisterWidget> {
-  final _formKey = GlobalKey<FormState>();
-
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordAgainController = TextEditingController();
-
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    _passwordAgainController.dispose();
-
-    super.dispose();
-  }
 
   void _submit(BuildContext context) {
     if (_usernameController.text.isEmpty) {
@@ -110,12 +50,6 @@ class _RegisterWidgetState extends State<_RegisterWidget> {
       return;
     }
 
-    // if (!_formKey.currentState!.validate()) {
-    //   return;
-    // }
-
-    // _formKey.currentState!.save();
-
     BlocProvider.of<CredentialCubit>(context).signUpSumbit(
         user: UserEntity(
       userName: _usernameController.text,
@@ -125,16 +59,79 @@ class _RegisterWidgetState extends State<_RegisterWidget> {
   }
 
   @override
+  void dispose() {
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _passwordAgainController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    return
+        // Scaffold(
+        // backgroundColor: ColorTheme.colorTheme,
+        // appBar: AppBar(
+        //   backgroundColor: ColorTheme.appBarColor,
+        //   elevation: 0,
+        //   title: const Text(
+        //     'В МИСиС',
+        //     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        //   ),
+        //   centerTitle: true,
+        // ),
+        // body:
+        BlocConsumer<CredentialCubit, CredentialState>(
+      listener: (context, credentialState) {
+        if (credentialState is CredentialSuccess) {
+          BlocProvider.of<AuthCubit>(context).loggedIn();
+        }
+        if (credentialState is CredentialFailure) {
+          snackBarNetwork(msg: "ошибка", context: context);
+        }
+      },
+      builder: (context, credentialState) {
+        if (credentialState is CredentialLoading) {
+          return loadingIndicatorProgressBar();
+        }
+        if (credentialState is CredentialSuccess) {
+          return BlocBuilder<AuthCubit, AuthState>(
+            builder: (context, authState) {
+              if (authState is Authenticated) {
+                return const HomePage();
+              } else {
+                return _bodyWidget();
+              }
+            },
+          );
+        }
+        return _bodyWidget();
+      },
+    );
+    // );
+  }
+
+  Widget _bodyWidget() {
     final circulareShape = MaterialStateProperty.all(
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)));
     var headerTextStyle = const TextStyle(
         fontSize: 14,
         color: ColorTheme.thirdColor,
         fontWeight: FontWeight.w300);
-    return SingleChildScrollView(
-      child: Form(
-        key: _formKey,
+    return Scaffold(
+      backgroundColor: ColorTheme.colorTheme,
+      appBar: AppBar(
+        backgroundColor: ColorTheme.appBarColor,
+        elevation: 0,
+        title: const Text(
+          'В МИСиС',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Container(

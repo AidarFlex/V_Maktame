@@ -7,11 +7,9 @@ import 'package:vk_example/features/domain/entities/chat_entity.dart';
 import 'package:vk_example/features/presentation/cubit/auth/auth_state.dart';
 import 'package:vk_example/features/presentation/cubit/post/post_cubit.dart';
 import 'package:vk_example/features/presentation/cubit/post/post_state.dart';
-import 'package:vk_example/features/presentation/pages/auth_page.dart';
 import 'package:vk_example/features/presentation/pages/chat_page.dart';
 
 class HomePage extends StatefulWidget {
-  static const String id = '/home_page';
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -41,8 +39,8 @@ class _HomePageState extends State<HomePage> {
                 icon: const Icon(Icons.add, color: Colors.black)),
             IconButton(
                 onPressed: () {
-                  context.read<AuthCubit>().loggedOut().then((_) =>
-                      Navigator.of(context).pushReplacementNamed(AuthPage.id));
+                  // Navigator.pop(context);
+                  BlocProvider.of<AuthCubit>(context).loggedOut();
                 },
                 icon: const Icon(Icons.logout, color: Colors.black))
           ],
