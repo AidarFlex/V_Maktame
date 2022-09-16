@@ -50,7 +50,7 @@ class _ChatPageState extends State<ChatPage> {
             return Column(
               children: [
                 _chatListWidget(chatState),
-                SendMessageTextField(),
+                sendMessageTextField(),
               ],
             );
           }
@@ -101,7 +101,7 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  Widget SendMessageTextField() {
+  Widget sendMessageTextField() {
     return Container(
       margin: const EdgeInsets.only(bottom: 10, left: 4, right: 4),
       child: Row(

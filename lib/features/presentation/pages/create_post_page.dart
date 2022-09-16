@@ -2,13 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:vk_example/features/data/data_sources/firebase_storage_provider.dart';
 import 'package:vk_example/features/domain/entities/post_entity.dart';
 import 'package:vk_example/features/presentation/cubit/post/post_cubit.dart';
+import 'package:vk_example/features/presentation/widgets/common.dart';
+import 'package:vk_example/features/presentation/widgets/image_widget.dart';
 
 class CreatePostPage extends StatefulWidget {
-  static const id = 'create_post_page';
   const CreatePostPage({Key? key}) : super(key: key);
 
   @override
@@ -18,22 +20,46 @@ class CreatePostPage extends StatefulWidget {
 class _CreatePostPageState extends State<CreatePostPage> {
   final firebaseStorageProvider = FirebaseStorageProvider();
   final _formKey = GlobalKey<FormState>();
-  late String _description;
+  final _descriptionController = TextEditingController();
   late String _imageUrl;
+  File? _image;
 
-  Future<void> _submit({required File image}) async {
+  Future<void> getImage() async {
+    try {
+      final picker = ImagePicker();
+      final XFile? xFile =
+          await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+
+      setState(() {
+        if (xFile != null) {
+          _image = File(xFile.path);
+          FirebaseStorageProvider.uploadImage(image: _image!).then((value) {
+            setState(() {
+              _imageUrl = value;
+            });
+          });
+        } else {
+          print('No image selected.');
+        }
+      });
+    } catch (e) {
+      toast("error $e");
+    }
+  }
+
+  Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    String getImage() {
-      FirebaseStorageProvider.uploadImage(image: image).then((value) {
-        setState(() {
-          _imageUrl = value;
-        });
-      });
-      return _imageUrl;
-    }
+    // String getImage() {
+    //   FirebaseStorageProvider.uploadImage(image: image).then((value) {
+    //     setState(() {
+    //       _imageUrl = value;
+    //     });
+    //   });
+    //   return _imageUrl;
+    // }
 
     _formKey.currentState!.save();
 
@@ -43,15 +69,26 @@ class _CreatePostPageState extends State<CreatePostPage> {
             userID: FirebaseAuth.instance.currentUser!.uid,
             userName: FirebaseAuth.instance.currentUser!.displayName!,
             timestamp: Timestamp.now(),
-            imageUrl: getImage(),
-            description: _description));
-
+            imageUrl: _imageUrl,
+            description: _descriptionController.text));
+    _clear();
     Navigator.of(context).pop();
   }
 
   @override
+  void dispose() {
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
+  void _clear() {
+    _descriptionController.clear();
+    _image = null;
+    _imageUrl = '';
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final File imageFile = ModalRoute.of(context)!.settings.arguments as File;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create Post'),
@@ -61,9 +98,21 @@ class _CreatePostPageState extends State<CreatePostPage> {
         child: ListView(
           padding: const EdgeInsets.all(18),
           children: [
-            Image.file(imageFile, fit: BoxFit.cover),
+            ElevatedButton(
+                onPressed: () => getImage(),
+                child: const Text('Загрузить фото')),
+            Container(
+              height: 500,
+              decoration: const BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.all(Radius.circular(50)),
+              ),
+              child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(50)),
+                  child: ImageWidget(image: _image)),
+            ),
             TextFormField(
-              onSaved: (value) => _description = value!,
+              onSaved: (value) => _descriptionController.text = value!,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Please provide description";
@@ -76,7 +125,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
               autocorrect: false,
               textCapitalization: TextCapitalization.none,
               textInputAction: TextInputAction.done,
-              onFieldSubmitted: (_) => _submit(image: imageFile),
+              onFieldSubmitted: (_) => _submit(),
             ),
             const SizedBox(
               width: 10,

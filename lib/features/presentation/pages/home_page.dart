@@ -24,17 +24,7 @@ class _HomePageState extends State<HomePage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  final picker = ImagePicker();
-                  picker
-                      .pickImage(source: ImageSource.gallery, imageQuality: 40)
-                      .then((xFile) {
-                    if (xFile != null) {
-                      final file = File(xFile.path);
-
-                      Navigator.of(context)
-                          .pushNamed('/create_post_page', arguments: file);
-                    }
-                  });
+                  Navigator.of(context).pushNamed('/create_post_page');
                 },
                 icon: const Icon(Icons.add, color: Colors.black)),
             IconButton(

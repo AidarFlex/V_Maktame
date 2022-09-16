@@ -1,7 +1,7 @@
 {
   "file_generated_by": "FlutterFire CLI",
   "purpose": "FirebaseAppID & ProjectID for this Firebase app in this directory",
-  "GOOGLE_APP_ID": "1:722782611654:ios:e3170e44dd43c067908fc7",
-  "FIREBASE_PROJECT_ID": "todo-list-d28fe",
-  "GCM_SENDER_ID": "722782611654"
+  "GOOGLE_APP_ID": "1:379144739641:ios:c612b71b921df08124e6e8",
+  "FIREBASE_PROJECT_ID": "chat-misis-app",
+  "GCM_SENDER_ID": "379144739641"
 }

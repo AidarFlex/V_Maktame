@@ -7,7 +7,7 @@ class TextMessageEntity extends Equatable {
   final String userName;
   final Timestamp timeStamp;
 
-  TextMessageEntity(
+  const TextMessageEntity(
       {required this.message,
       required this.userID,
       required this.userName,

@@ -44,40 +44,40 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAdwA_eNQOm5ILcWgRrp9rjEoBGfMxjbPU',
-    appId: '1:722782611654:web:59dc617b97feec40908fc7',
-    messagingSenderId: '722782611654',
-    projectId: 'todo-list-d28fe',
-    authDomain: 'todo-list-d28fe.firebaseapp.com',
-    storageBucket: 'todo-list-d28fe.appspot.com',
-    measurementId: 'G-YR8D3DWNWC',
+    apiKey: 'AIzaSyCc-ZLEEym_1U1Q_9_ozCLnHGmZonEyO40',
+    appId: '1:379144739641:web:77febd098d8d642024e6e8',
+    messagingSenderId: '379144739641',
+    projectId: 'chat-misis-app',
+    authDomain: 'chat-misis-app.firebaseapp.com',
+    storageBucket: 'chat-misis-app.appspot.com',
+    measurementId: 'G-E6336C24EY',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAPYRlLtT3RNZcVSebTOuQYOJ3cYFTarO0',
-    appId: '1:722782611654:android:cf3483c568130680908fc7',
-    messagingSenderId: '722782611654',
-    projectId: 'todo-list-d28fe',
-    storageBucket: 'todo-list-d28fe.appspot.com',
+    apiKey: 'AIzaSyCZHFe8fv1fWP2pBdZHRcGbHusBK_mfCBg',
+    appId: '1:379144739641:android:85b5f6ed4f9029e824e6e8',
+    messagingSenderId: '379144739641',
+    projectId: 'chat-misis-app',
+    storageBucket: 'chat-misis-app.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAPNpC7b9fqypxKva3seYZ8z2SLIJl_fMI',
-    appId: '1:722782611654:ios:e3170e44dd43c067908fc7',
-    messagingSenderId: '722782611654',
-    projectId: 'todo-list-d28fe',
-    storageBucket: 'todo-list-d28fe.appspot.com',
-    iosClientId: '722782611654-rufs3nejgatshqhqc4gfgrvomlcan4ic.apps.googleusercontent.com',
+    apiKey: 'AIzaSyCGNi80eACdRXNh4NENOklOICTXFawVWA0',
+    appId: '1:379144739641:ios:c612b71b921df08124e6e8',
+    messagingSenderId: '379144739641',
+    projectId: 'chat-misis-app',
+    storageBucket: 'chat-misis-app.appspot.com',
+    iosClientId: '379144739641-p4duonv96tu186ikobbht6sqam8f9ugt.apps.googleusercontent.com',
     iosBundleId: 'com.example.vkExample',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAPNpC7b9fqypxKva3seYZ8z2SLIJl_fMI',
-    appId: '1:722782611654:ios:e3170e44dd43c067908fc7',
-    messagingSenderId: '722782611654',
-    projectId: 'todo-list-d28fe',
-    storageBucket: 'todo-list-d28fe.appspot.com',
-    iosClientId: '722782611654-rufs3nejgatshqhqc4gfgrvomlcan4ic.apps.googleusercontent.com',
+    apiKey: 'AIzaSyCGNi80eACdRXNh4NENOklOICTXFawVWA0',
+    appId: '1:379144739641:ios:c612b71b921df08124e6e8',
+    messagingSenderId: '379144739641',
+    projectId: 'chat-misis-app',
+    storageBucket: 'chat-misis-app.appspot.com',
+    iosClientId: '379144739641-p4duonv96tu186ikobbht6sqam8f9ugt.apps.googleusercontent.com',
     iosBundleId: 'com.example.vkExample',
   );
 }
