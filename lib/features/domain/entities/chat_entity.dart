@@ -1,24 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:equatable/equatable.dart';
-
-class ChatEntity extends Equatable {
+class ChatEntity {
   final String userName;
-  final String userID;
-  // final String message;
-  // final Timestamp timeStamp;
+  final String uid;
 
   const ChatEntity({
     required this.userName,
-    required this.userID,
-    // required this.message,
-    // required this.timeStamp,
+    required this.uid,
   });
 
-  @override
-  List<Object?> get props => [
-        userName,
-        userID,
-        // message,
-        // timeStamp,
-      ];
+  // @override
+  // List<Object?> get props => [
+  //       userName,
+  //       uid,
+  //       // message,
+  //       // timeStamp,
+  //     ];
 }

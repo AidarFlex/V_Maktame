@@ -52,15 +52,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
       return;
     }
 
-    // String getImage() {
-    //   FirebaseStorageProvider.uploadImage(image: image).then((value) {
-    //     setState(() {
-    //       _imageUrl = value;
-    //     });
-    //   });
-    //   return _imageUrl;
-    // }
-
     _formKey.currentState!.save();
 
     BlocProvider.of<PostCubit>(context).createPost(
@@ -102,7 +93,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                 onPressed: () => getImage(),
                 child: const Text('Загрузить фото')),
             Container(
-              height: 500,
+              height: 350,
               decoration: const BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.all(Radius.circular(50)),

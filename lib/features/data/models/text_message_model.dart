@@ -1,23 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore_platform_interface/src/timestamp.dart';
 import 'package:vk_example/features/domain/entities/text_message_entity.dart';
 
 class TextMessageModel extends TextMessageEntity {
-  TextMessageModel(
+  const TextMessageModel(
       {required String message,
-      required String userID,
+      required String senderID,
       required String userName,
       required Timestamp timeStamp})
       : super(
             message: message,
-            userID: userID,
+            senderID: senderID,
             userName: userName,
             timeStamp: timeStamp);
 
   factory TextMessageModel.fromJson(DocumentSnapshot snapshot) {
     return TextMessageModel(
         message: snapshot.get('message'),
-        userID: snapshot.get('userID'),
+        senderID: snapshot.get('senderID'),
         userName: snapshot.get('userName'),
         timeStamp: snapshot.get('timeStamp'));
   }
@@ -25,7 +24,7 @@ class TextMessageModel extends TextMessageEntity {
   Map<String, dynamic> toDocument() {
     return {
       'message': message,
-      'userID': userID,
+      'senderID': senderID,
       'userName': userName,
       'timeStamp': timeStamp,
     };

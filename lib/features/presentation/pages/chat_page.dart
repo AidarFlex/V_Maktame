@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
@@ -17,16 +19,16 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final TextEditingController _messageEditingController =
-      TextEditingController();
+  final _messageEditingController = TextEditingController();
   final _scrollController = ScrollController();
+
   @override
   void initState() {
     _messageEditingController.addListener(() {
       setState(() {});
     });
     BlocProvider.of<ChatCubit>(context)
-        .getMessage(channelId: widget.chatEntity.userID);
+        .getMessage(channelId: widget.chatEntity.uid);
     super.initState();
   }
 
@@ -69,7 +71,7 @@ class _ChatPageState extends State<ChatPage> {
         itemCount: chatState.messages.length,
         itemBuilder: (_, index) {
           final message = chatState.messages[index];
-          if (message.userID == widget.chatEntity.userID) {
+          if (message.senderID == FirebaseAuth.instance.currentUser!.uid) {
             return _ChatLayout(
               userName: "Me",
               alignName: TextAlign.end,
@@ -174,10 +176,11 @@ class _ChatPageState extends State<ChatPage> {
                         BlocProvider.of<ChatCubit>(context).sendTextMessage(
                             textMessageEntity: TextMessageEntity(
                                 message: _messageEditingController.text,
-                                userID: widget.chatEntity.userID,
+                                senderID:
+                                    FirebaseAuth.instance.currentUser!.uid,
                                 userName: widget.chatEntity.userName,
                                 timeStamp: Timestamp.now()),
-                            channelId: widget.chatEntity.userID);
+                            channelId: widget.chatEntity.uid);
                         setState(() {
                           _messageEditingController.clear();
                         });
@@ -206,24 +209,6 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 }
-
-// class _ChatListWidget extends StatefulWidget {
-//   final ChatEntity chatEntity;
-//   final ChatLoaded chatState;
-//   const _ChatListWidget(
-//       {Key? key, required this.chatState, required this.chatEntity})
-//       : super(key: key);
-
-//   @override
-//   State<_ChatListWidget> createState() => _ChatListWidgetState();
-// }
-
-// class _ChatListWidgetState extends State<_ChatListWidget> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return
-//   }
-// }
 
 class _ChatLayout extends StatelessWidget {
   final String text;
@@ -297,19 +282,3 @@ class _ChatLayout extends StatelessWidget {
     );
   }
 }
-
-// class _SendMessageTextField extends StatefulWidget {
-//   final ChatEntity chatEntity;
-//   const _SendMessageTextField({Key? key, required this.chatEntity})
-//       : super(key: key);
-
-//   @override
-//   State<_SendMessageTextField> createState() => _SendMessageTextFieldState();
-// }
-
-// class _SendMessageTextFieldState extends State<_SendMessageTextField> {
-//   @override
-//   Widget build(BuildContext context) {
-
-//   }
-// }

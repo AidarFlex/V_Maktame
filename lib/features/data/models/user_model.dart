@@ -16,7 +16,7 @@ class UserModel extends UserEntity {
     return UserModel(
       userName: snapshot.get('userName'),
       email: snapshot.get('email'),
-      password: snapshot.get('password'),
+      // password: snapshot.get('password'),
     );
   }
 
@@ -24,7 +24,7 @@ class UserModel extends UserEntity {
     return {
       "userName": userName,
       "email": email,
-      "password": password,
+      // "password": password,
     };
   }
 }

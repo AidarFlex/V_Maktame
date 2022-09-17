@@ -1,10 +1,8 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vk_example/common/color_theme.dart';
 import 'package:vk_example/features/domain/entities/chat_entity.dart';
-import 'package:vk_example/features/presentation/cubit/auth/auth_state.dart';
+import 'package:vk_example/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:vk_example/features/presentation/cubit/post/post_cubit.dart';
 import 'package:vk_example/features/presentation/cubit/post/post_state.dart';
 import 'package:vk_example/features/presentation/pages/chat_page.dart';
@@ -29,7 +27,6 @@ class _HomePageState extends State<HomePage> {
                 icon: const Icon(Icons.add, color: Colors.black)),
             IconButton(
                 onPressed: () {
-                  // Navigator.pop(context);
                   BlocProvider.of<AuthCubit>(context).loggedOut();
                 },
                 icon: const Icon(Icons.logout, color: Colors.black))
@@ -62,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                                   builder: (_) => ChatPage(
                                       chatEntity: ChatEntity(
                                     userName: filteredPosts[index].userName,
-                                    userID: filteredPosts[index].postID,
+                                    uid: filteredPosts[index].postID,
                                   )),
                                 ));
                           },

@@ -15,7 +15,7 @@ import 'package:vk_example/features/domain/use_cases/send_text_message_usecase.d
 import 'package:vk_example/features/domain/use_cases/sign_in_usecase.dart';
 import 'package:vk_example/features/domain/use_cases/sign_out_usecase.dart';
 import 'package:vk_example/features/domain/use_cases/sign_up_usecase.dart';
-import 'package:vk_example/features/presentation/cubit/auth/auth_state.dart';
+import 'package:vk_example/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:vk_example/features/presentation/cubit/chat/chat_cubit.dart';
 import 'package:vk_example/features/presentation/cubit/credential/credential_cubit.dart';
 import 'package:vk_example/features/presentation/cubit/post/post_cubit.dart';

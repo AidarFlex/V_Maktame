@@ -97,7 +97,7 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
       await messageRef.doc(messageId).set(TextMessageModel(
               message: textMessageEntity.message,
               timeStamp: textMessageEntity.timeStamp,
-              userID: textMessageEntity.userID,
+              senderID: textMessageEntity.senderID,
               userName: textMessageEntity.userName)
           .toDocument());
     } catch (e) {

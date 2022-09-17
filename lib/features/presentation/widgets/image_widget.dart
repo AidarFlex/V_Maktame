@@ -13,7 +13,7 @@ class ImageWidget extends StatelessWidget {
     if (image == null) {
       if (imageUrl == null) {
         return Image.asset(
-          'assets/profile_default.png',
+          'assets/default_image.png',
           fit: BoxFit.cover,
         );
       } else {

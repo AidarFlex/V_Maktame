@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vk_example/features/domain/entities/user_entity.dart';
 import 'package:vk_example/features/domain/use_cases/get_create_current_user.dart';
-import 'package:vk_example/features/domain/use_cases/get_current_uid_usecase.dart';
 import 'package:vk_example/features/domain/use_cases/sign_in_usecase.dart';
 import 'package:vk_example/features/domain/use_cases/sign_up_usecase.dart';
 import 'package:vk_example/features/presentation/cubit/credential/cretential_state.dart';

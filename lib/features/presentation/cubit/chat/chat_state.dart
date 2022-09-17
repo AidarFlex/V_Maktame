@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:vk_example/features/domain/entities/chat_entity.dart';
 import 'package:vk_example/features/domain/entities/text_message_entity.dart';
 
 abstract class ChatState extends Equatable {

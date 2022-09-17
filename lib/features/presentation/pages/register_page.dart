@@ -1,16 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vk_example/common/color_theme.dart';
-import 'package:vk_example/features/data/models/user_model.dart';
 import 'package:vk_example/features/domain/entities/user_entity.dart';
 import 'package:vk_example/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:vk_example/features/presentation/cubit/auth/auth_state.dart';
 import 'package:vk_example/features/presentation/cubit/credential/credential_cubit.dart';
 import 'package:vk_example/features/presentation/cubit/credential/cretential_state.dart';
-import 'package:vk_example/features/presentation/pages/auth_page.dart';
 import 'package:vk_example/features/presentation/pages/home_page.dart';
 import 'package:vk_example/features/presentation/widgets/common.dart';
 
@@ -70,20 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return
-        // Scaffold(
-        // backgroundColor: ColorTheme.colorTheme,
-        // appBar: AppBar(
-        //   backgroundColor: ColorTheme.appBarColor,
-        //   elevation: 0,
-        //   title: const Text(
-        //     'В МИСиС',
-        //     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        //   ),
-        //   centerTitle: true,
-        // ),
-        // body:
-        BlocConsumer<CredentialCubit, CredentialState>(
+    return BlocConsumer<CredentialCubit, CredentialState>(
       listener: (context, credentialState) {
         if (credentialState is CredentialSuccess) {
           BlocProvider.of<AuthCubit>(context).loggedIn();
@@ -125,11 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
       appBar: AppBar(
         backgroundColor: ColorTheme.appBarColor,
         elevation: 0,
-        title: const Text(
-          'В МИСиС',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
+        foregroundColor: Colors.black,
       ),
       body: SingleChildScrollView(
         child: Column(

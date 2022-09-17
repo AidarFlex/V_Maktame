@@ -1,55 +1,22 @@
-import 'dart:developer';
+import 'package:equatable/equatable.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vk_example/features/domain/use_cases/get_current_uid_usecase.dart';
-import 'package:vk_example/features/domain/use_cases/is_sign_in_usecase.dart';
-import 'package:vk_example/features/domain/use_cases/sign_out_usecase.dart';
-import 'package:vk_example/features/presentation/cubit/auth/auth_cubit.dart';
+abstract class AuthState extends Equatable {
+  const AuthState();
+}
 
-class AuthCubit extends Cubit<AuthState> {
-  final IsSignInUseCase isSignInUseCase;
-  final SignOutUseCase signOutUseCase;
-  final GetCurrentUidUseCase getCurrentUidUseCase;
+class AuthInitial extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
 
-  AuthCubit(
-      {required this.isSignInUseCase,
-      required this.signOutUseCase,
-      required this.getCurrentUidUseCase})
-      : super(AuthInitial());
+class Authenticated extends AuthState {
+  final String uid;
+  const Authenticated({required this.uid});
+  @override
+  List<Object?> get props => [];
+}
 
-  Future<void> appStarted() async {
-    try {
-      bool isSignIn = await isSignInUseCase.call();
-      log(isSignIn.toString());
-      if (isSignIn == true) {
-        final uid = await getCurrentUidUseCase.call();
-
-        emit(Authenticated(uid: uid));
-      } else {
-        emit(UnAuthenticated());
-      }
-    } catch (_) {
-      emit(UnAuthenticated());
-    }
-  }
-
-  Future<void> loggedIn() async {
-    try {
-      final uid = await getCurrentUidUseCase.call();
-      log('user id $uid');
-      emit(Authenticated(uid: uid));
-    } catch (_) {
-      log('user id is null');
-      emit(UnAuthenticated());
-    }
-  }
-
-  Future<void> loggedOut() async {
-    try {
-      await signOutUseCase.call();
-      emit(UnAuthenticated());
-    } catch (_) {
-      emit(UnAuthenticated());
-    }
-  }
+class UnAuthenticated extends AuthState {
+  @override
+  List<Object?> get props => [];
 }
