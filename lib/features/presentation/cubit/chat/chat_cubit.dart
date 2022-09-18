@@ -25,10 +25,10 @@ class ChatCubit extends Cubit<ChatState> {
       required String channelId}) async {
     try {
       await sendTextMessageUseCase.call(textMessageEntity, channelId);
-    } on SocketException catch (_) {
-      emit(ChatFailure());
-    } catch (_) {
-      emit(ChatFailure());
+    } on SocketException catch (error) {
+      emit(ChatFailure(error: error.toString()));
+    } catch (error) {
+      emit(ChatFailure(error: error.toString()));
     }
   }
 }

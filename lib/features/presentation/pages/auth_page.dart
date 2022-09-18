@@ -21,11 +21,11 @@ class _AuthPageState extends State<AuthPage> {
 
   void _submit(BuildContext context) {
     if (emailController.text.isEmpty) {
-      toast('Напишите email');
+      snackBarNetwork(msg: 'Напишите email', context: context);
       return;
     }
     if (passwordController.text.isEmpty) {
-      toast('Напишите пароль');
+      snackBarNetwork(msg: 'Напишите пароль', context: context);
       return;
     }
 
@@ -91,7 +91,7 @@ class _AuthPageState extends State<AuthPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Вход ВМИСиС',
+                  'Вход в Мактаму',
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: 10),

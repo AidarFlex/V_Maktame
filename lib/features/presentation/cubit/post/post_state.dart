@@ -24,6 +24,9 @@ class PostLoaded extends PostState {
 }
 
 class PostFailure extends PostState {
+  final String error;
+  const PostFailure({required this.error});
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [error];
 }

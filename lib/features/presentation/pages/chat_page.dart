@@ -180,10 +180,10 @@ class _ChatPageState extends State<ChatPage> {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(50))),
                       child: Icon(
-                        _messageEditingController.text.isEmpty
-                            ? Icons.mic
-                            : Icons.send,
-                        color: Colors.blue,
+                        Icons.send,
+                        color: _messageEditingController.text.isEmpty
+                            ? Colors.grey
+                            : Colors.blue,
                       ),
                     ),
                   ),

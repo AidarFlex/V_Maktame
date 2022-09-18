@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vk_example/common/color_theme.dart';
 import 'package:vk_example/features/domain/entities/chat_entity.dart';
 import 'package:vk_example/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:vk_example/features/presentation/cubit/post/post_cubit.dart';
@@ -35,7 +34,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.white,
         elevation: 0,
         title: const Text(
-          'В МИСиС',
+          'В Мактаме',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
@@ -50,55 +49,59 @@ class _HomePageState extends State<HomePage> {
                 : ListView.builder(
                     itemCount: filteredPosts.length,
                     itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                          BlocProvider.of<PostCubit>(context).getPosts();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => ChatPage(
-                                chatEntity: ChatEntity(
-                                  userName: filteredPosts[index].userName,
-                                  uid: filteredPosts[index].postID,
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                        child: Ink(
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: 35,
-                                  backgroundImage: NetworkImage(
-                                    filteredPosts[index].imageUrl,
+                      return Card(
+                        child: InkWell(
+                          onTap: () {
+                            BlocProvider.of<PostCubit>(context).getPosts();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ChatPage(
+                                  chatEntity: ChatEntity(
+                                    userName: filteredPosts[index].userName,
+                                    uid: filteredPosts[index].postID,
                                   ),
                                 ),
-                                const SizedBox(width: 16),
-                                Expanded(
-                                    child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      filteredPosts[index].userName,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge,
+                              ),
+                            );
+                          },
+                          child: Ink(
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 35,
+                                    backgroundImage: NetworkImage(
+                                      filteredPosts[index].imageUrl,
                                     ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      filteredPosts[index].description,
-                                      style:
-                                          Theme.of(context).textTheme.subtitle1,
-                                    ),
-                                  ],
-                                )),
-                              ],
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                      child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        filteredPosts[index].userName,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge,
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        filteredPosts[index].description,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle1,
+                                      ),
+                                    ],
+                                  )),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -112,39 +115,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-// CircleAvatar(
-//                             backgroundImage: NetworkImage(
-//                               filteredPosts[index].imageUrl,
-//                             )
-
-// Card(
-//                         elevation: 0.0,
-//                         child: ListTile(
-                          // onTap: () {
-                          //   BlocProvider.of<PostCubit>(context).getPosts();
-                          //   Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //         builder: (_) => ChatPage(
-                          //             chatEntity: ChatEntity(
-                          //           userName: filteredPosts[index].userName,
-                          //           uid: filteredPosts[index].postID,
-                          //         )),
-                          //       ));
-                          // },
-                          // title: Text(
-                          //   filteredPosts[index].userName,
-                          //   style: Theme.of(context).textTheme.headline6,
-                          // ),
-                          // subtitle: Text(
-                          //   filteredPosts[index].description,
-                          //   style: Theme.of(context).textTheme.headline5,
-                          // ),
-                          // leading: CircleAvatar(
-                          //   backgroundImage: NetworkImage(
-                          //     filteredPosts[index].imageUrl,
-                          //   ),
-                          // ),
-//                         ),
-//                       );

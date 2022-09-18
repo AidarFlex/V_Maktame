@@ -23,25 +23,25 @@ class _RegisterPageState extends State<RegisterPage> {
   final _passwordAgainController = TextEditingController();
 
   void _submit(BuildContext context) {
-    if (_usernameController.text.isEmpty) {
-      toast('Напищшите ник');
+    if (_emailController.text.isEmpty) {
+      snackBarNetwork(msg: 'Напишите email', context: context);
       return;
     }
-    if (_emailController.text.isEmpty) {
-      toast('Напишите email');
+    if (_usernameController.text.isEmpty) {
+      snackBarNetwork(msg: 'Напишите ник', context: context);
       return;
     }
     if (_passwordController.text.isEmpty) {
-      toast('Напишите password');
+      snackBarNetwork(msg: 'Напишите password', context: context);
       return;
     }
     if (_passwordAgainController.text.isEmpty) {
-      toast('Напишите снова свой password');
+      snackBarNetwork(msg: 'Напишите снова свой password', context: context);
       return;
     }
     if (_passwordController.text == _passwordAgainController.text) {
     } else {
-      toast("Пароль не совпадает");
+      snackBarNetwork(msg: 'Пароль не совпадает', context: context);
       return;
     }
 
@@ -149,6 +149,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     labelText: 'Пароль',
                   ),
+                  textInputAction: TextInputAction.next,
                 ),
                 const SizedBox(height: 10),
                 TextField(

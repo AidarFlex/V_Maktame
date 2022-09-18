@@ -17,7 +17,6 @@ class ChatLoading extends ChatState {
 
 class ChatLoaded extends ChatState {
   final List<TextMessageEntity> messages;
-
   const ChatLoaded({required this.messages});
 
   @override
@@ -25,6 +24,9 @@ class ChatLoaded extends ChatState {
 }
 
 class ChatFailure extends ChatState {
+  final String error;
+  const ChatFailure({required this.error});
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [error];
 }

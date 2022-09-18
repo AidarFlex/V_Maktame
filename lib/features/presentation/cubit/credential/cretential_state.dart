@@ -20,6 +20,9 @@ class CredentialSuccess extends CredentialState {
 }
 
 class CredentialFailure extends CredentialState {
+  final String error;
+
+  const CredentialFailure({required this.error});
   @override
-  List<Object> get props => [];
+  List<Object> get props => [error];
 }

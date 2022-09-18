@@ -39,12 +39,10 @@ class _CreatePostPageState extends State<CreatePostPage> {
               _imageUrl = value;
             });
           });
-        } else {
-          print('No image selected.');
         }
       });
-    } catch (e) {
-      toast("error $e");
+    } catch (error) {
+      snackBarNetwork(msg: error.toString(), context: context);
     }
   }
 
@@ -149,7 +147,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const Divider(),
+                    const Divider(thickness: 2),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(

@@ -17,42 +17,34 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
 
   @override
   Future<void> createNewPost(PostEntity postEntity) async {
-    try {
-      await firebaseFirestore.collection('posts').doc(postEntity.postID).set(
-          PostModel(
-            postID: postEntity.postID,
-            userID: postEntity.userID,
-            userName: postEntity.userName,
-            timestamp: postEntity.timestamp,
-            imageUrl: postEntity.imageUrl,
-            description: postEntity.description,
-          ).toDocument(),
-          SetOptions(merge: true));
-    } catch (e) {
-      print(e);
-    }
+    await firebaseFirestore.collection('posts').doc(postEntity.postID).set(
+        PostModel(
+          postID: postEntity.postID,
+          userID: postEntity.userID,
+          userName: postEntity.userName,
+          timestamp: postEntity.timestamp,
+          imageUrl: postEntity.imageUrl,
+          description: postEntity.description,
+        ).toDocument(),
+        SetOptions(merge: true));
   }
 
   @override
   Future<void> getCreateCurrentUser(UserEntity userEntity) async {
-    try {
-      final users = firebaseFirestore.collection('users');
-      final uid = await getCurrentUId();
-      users.doc(uid).get().then((user) {
-        final newUser = UserModel(
-          userName: userEntity.userName,
-          email: userEntity.email,
-          password: userEntity.password,
-        ).toDocument();
-        if (!user.exists) {
-          users.doc(uid).set(newUser);
-        } else {
-          users.doc(uid).update(newUser);
-        }
-      });
-    } catch (e) {
-      print(e);
-    }
+    final users = firebaseFirestore.collection('users');
+    final uid = await getCurrentUId();
+    users.doc(uid).get().then((user) {
+      final newUser = UserModel(
+        userName: userEntity.userName,
+        email: userEntity.email,
+        password: userEntity.password,
+      ).toDocument();
+      if (!user.exists) {
+        users.doc(uid).set(newUser);
+      } else {
+        users.doc(uid).update(newUser);
+      }
+    });
   }
 
   @override
@@ -88,59 +80,41 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
   @override
   Future<void> sendTextMessage(
       TextMessageEntity textMessageEntity, String channelId) async {
-    try {
-      final messageRef = firebaseFirestore
-          .collection('posts')
-          .doc(channelId)
-          .collection('chat');
-      final messageId = messageRef.doc().id;
-      await messageRef.doc(messageId).set(TextMessageModel(
-              message: textMessageEntity.message,
-              timeStamp: textMessageEntity.timeStamp,
-              senderID: textMessageEntity.senderID,
-              userName: textMessageEntity.userName)
-          .toDocument());
-    } catch (e) {
-      print(e);
-    }
+    final messageRef =
+        firebaseFirestore.collection('posts').doc(channelId).collection('chat');
+    final messageId = messageRef.doc().id;
+    await messageRef.doc(messageId).set(TextMessageModel(
+            message: textMessageEntity.message,
+            timeStamp: textMessageEntity.timeStamp,
+            senderID: textMessageEntity.senderID,
+            userName: textMessageEntity.userName)
+        .toDocument());
   }
 
   @override
   Future<void> signIn(UserEntity userEntity) async {
-    try {
-      await firebaseAuth.signInWithEmailAndPassword(
-          email: userEntity.email, password: userEntity.password);
-    } catch (e) {
-      print(e);
-    }
+    await firebaseAuth.signInWithEmailAndPassword(
+        email: userEntity.email, password: userEntity.password);
   }
 
   @override
   Future<void> signOut() async {
-    try {
-      await firebaseAuth.signOut();
-    } catch (e) {
-      print(e);
-    }
+    await firebaseAuth.signOut();
   }
 
   @override
   Future<void> signUp(UserEntity userEntity) async {
-    try {
-      UserCredential userCredential =
-          await firebaseAuth.createUserWithEmailAndPassword(
-              email: userEntity.email, password: userEntity.password);
-      await firebaseFirestore
-          .collection('users')
-          .doc(userCredential.user!.uid)
-          .set({
-        'email': userEntity.email,
-        'userName': userEntity.userName,
-        'userID': userCredential.user!.uid
-      });
-      userCredential.user!.updateDisplayName(userEntity.userName);
-    } catch (e) {
-      print(e);
-    }
+    UserCredential userCredential =
+        await firebaseAuth.createUserWithEmailAndPassword(
+            email: userEntity.email, password: userEntity.password);
+    await firebaseFirestore
+        .collection('users')
+        .doc(userCredential.user!.uid)
+        .set({
+      'email': userEntity.email,
+      'userName': userEntity.userName,
+      'userID': userCredential.user!.uid
+    });
+    userCredential.user!.updateDisplayName(userEntity.userName);
   }
 }

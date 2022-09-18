@@ -18,7 +18,6 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> appStarted() async {
     try {
       bool isSignIn = await isSignInUseCase.call();
-      print(isSignIn);
       if (isSignIn == true) {
         final uid = await getCurrentUidUseCase.call();
 
@@ -34,10 +33,8 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> loggedIn() async {
     try {
       final uid = await getCurrentUidUseCase.call();
-      print('user id $uid');
       emit(Authenticated(uid: uid));
     } catch (_) {
-      print('user id is null');
       emit(UnAuthenticated());
     }
   }

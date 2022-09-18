@@ -24,10 +24,10 @@ class PostCubit extends Cubit<PostState> {
   Future<void> createPost({required PostEntity postEntity}) async {
     try {
       await createNewPostUseCase.call(postEntity);
-    } on SocketException catch (_) {
-      emit(PostFailure());
-    } catch (_) {
-      emit(PostFailure());
+    } on SocketException catch (error) {
+      emit(PostFailure(error: error.toString()));
+    } catch (error) {
+      emit(PostFailure(error: error.toString()));
     }
   }
 }
