@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-abstract class ColorTheme {
+class ColorTheme {
   static const colorTheme = Color.fromRGBO(235, 237, 240, 1);
   static const appBarColor = Color(0xFFFFFFFF);
   static const firstTextColor = Color(0xFF2D81E0);

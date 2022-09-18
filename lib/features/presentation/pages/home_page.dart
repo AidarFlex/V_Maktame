@@ -18,89 +18,133 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/create_post_page');
-                },
-                icon: const Icon(Icons.add, color: Colors.black)),
-            IconButton(
-                onPressed: () {
-                  BlocProvider.of<AuthCubit>(context).loggedOut();
-                },
-                icon: const Icon(Icons.logout, color: Colors.black))
-          ],
-          backgroundColor: ColorTheme.appBarColor,
-          elevation: 0,
-          title: const Text(
-            'В МИСиС',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-          centerTitle: true,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed('/create_post_page');
+              },
+              icon: const Icon(Icons.add, color: Colors.black)),
+          IconButton(
+              onPressed: () {
+                BlocProvider.of<AuthCubit>(context).loggedOut();
+              },
+              icon: const Icon(Icons.logout, color: Colors.black))
+        ],
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: const Text(
+          'В МИСиС',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-        body: BlocBuilder<PostCubit, PostState>(
-          builder: (context, postState) {
-            if (postState is PostLoaded) {
-              final filteredPosts = postState.posts.toList();
-              return filteredPosts.isEmpty
-                  ? const Center(
-                      child: Text('Здесь ничего нет!'),
-                    )
-                  : ListView.builder(
-                      itemCount: filteredPosts.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            BlocProvider.of<PostCubit>(context).getPosts();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => ChatPage(
-                                      chatEntity: ChatEntity(
-                                    userName: filteredPosts[index].userName,
-                                    uid: filteredPosts[index].postID,
-                                  )),
-                                ));
-                          },
+      ),
+      body: BlocBuilder<PostCubit, PostState>(
+        builder: (context, postState) {
+          if (postState is PostLoaded) {
+            final filteredPosts = postState.posts.toList();
+            return filteredPosts.isEmpty
+                ? const Center(
+                    child: Text('Здесь ничего нет!'),
+                  )
+                : ListView.builder(
+                    itemCount: filteredPosts.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          BlocProvider.of<PostCubit>(context).getPosts();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => ChatPage(
+                                chatEntity: ChatEntity(
+                                  userName: filteredPosts[index].userName,
+                                  uid: filteredPosts[index].postID,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        child: Ink(
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                          ),
                           child: Padding(
-                            padding: const EdgeInsets.all(18),
-                            child: Column(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
                               children: [
-                                Container(
-                                  height: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                        filteredPosts[index].imageUrl,
-                                      ),
-                                      fit: BoxFit.cover,
-                                    ),
+                                CircleAvatar(
+                                  radius: 35,
+                                  backgroundImage: NetworkImage(
+                                    filteredPosts[index].imageUrl,
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  filteredPosts[index].userName,
-                                  style: Theme.of(context).textTheme.headline6,
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  filteredPosts[index].description,
-                                  style: Theme.of(context).textTheme.headline5,
-                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                    child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      filteredPosts[index].userName,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      filteredPosts[index].description,
+                                      style:
+                                          Theme.of(context).textTheme.subtitle1,
+                                    ),
+                                  ],
+                                )),
                               ],
                             ),
                           ),
-                        );
-                      });
-            }
-            return const Center(child: CircularProgressIndicator());
-          },
-        ));
+                        ),
+                      );
+                    },
+                  );
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
+      ),
+    );
   }
 }
+
+// CircleAvatar(
+//                             backgroundImage: NetworkImage(
+//                               filteredPosts[index].imageUrl,
+//                             )
+
+// Card(
+//                         elevation: 0.0,
+//                         child: ListTile(
+                          // onTap: () {
+                          //   BlocProvider.of<PostCubit>(context).getPosts();
+                          //   Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //         builder: (_) => ChatPage(
+                          //             chatEntity: ChatEntity(
+                          //           userName: filteredPosts[index].userName,
+                          //           uid: filteredPosts[index].postID,
+                          //         )),
+                          //       ));
+                          // },
+                          // title: Text(
+                          //   filteredPosts[index].userName,
+                          //   style: Theme.of(context).textTheme.headline6,
+                          // ),
+                          // subtitle: Text(
+                          //   filteredPosts[index].description,
+                          //   style: Theme.of(context).textTheme.headline5,
+                          // ),
+                          // leading: CircleAvatar(
+                          //   backgroundImage: NetworkImage(
+                          //     filteredPosts[index].imageUrl,
+                          //   ),
+                          // ),
+//                         ),
+//                       );

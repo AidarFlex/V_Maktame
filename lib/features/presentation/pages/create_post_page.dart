@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:vk_example/common/color_theme.dart';
 import 'dart:io';
 import 'package:vk_example/features/data/data_sources/firebase_storage_provider.dart';
 import 'package:vk_example/features/domain/entities/post_entity.dart';
@@ -80,48 +81,94 @@ class _CreatePostPageState extends State<CreatePostPage> {
 
   @override
   Widget build(BuildContext context) {
+    final circulareShape = MaterialStateProperty.all(
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)));
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Create Post'),
+        elevation: 0.0,
+        backgroundColor: Colors.white,
+        title: const Text('Создать пост'),
+        foregroundColor: Colors.black,
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(0),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Divider(
+              thickness: 2,
+              height: 0,
+            ),
+          ),
+        ),
       ),
       body: Form(
         key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(18),
-          children: [
-            ElevatedButton(
-                onPressed: () => getImage(),
-                child: const Text('Загрузить фото')),
-            Container(
-              height: 350,
-              decoration: const BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.all(Radius.circular(50)),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Stack(
+            children: [
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () => getImage(),
+                    child: Ink(
+                        child: CircleAvatar(
+                      radius: 35,
+                      child: ClipOval(
+                          child: ImageWidget(
+                        image: _image,
+                      )),
+                    )),
+                  ),
+                  const SizedBox(width: 16),
+                  Flexible(
+                    child: TextFormField(
+                      onSaved: (value) => _descriptionController.text = value!,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please provide description";
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        hintText: 'что то с чем то',
+                      ),
+                      autocorrect: false,
+                      textCapitalization: TextCapitalization.none,
+                      textInputAction: TextInputAction.done,
+                      onFieldSubmitted: (_) => _submit(),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                ],
               ),
-              child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(50)),
-                  child: ImageWidget(image: _image)),
-            ),
-            TextFormField(
-              onSaved: (value) => _descriptionController.text = value!,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Please provide description";
-                }
-                return null;
-              },
-              decoration: const InputDecoration(
-                hintText: 'что то с чем то',
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const Divider(),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () => _submit(),
+                        child: const Text('Создать пост'),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              ColorTheme.registerColor),
+                          foregroundColor:
+                              MaterialStateProperty.all(ColorTheme.appBarColor),
+                          shape: circulareShape,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              autocorrect: false,
-              textCapitalization: TextCapitalization.none,
-              textInputAction: TextInputAction.done,
-              onFieldSubmitted: (_) => _submit(),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

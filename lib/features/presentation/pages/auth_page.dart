@@ -58,7 +58,8 @@ class _AuthPageState extends State<AuthPage> {
       },
       builder: (context, credentialState) {
         if (CredentialState is CredentialLoading) {
-          return loadingIndicatorProgressBar();
+          return const Scaffold(
+              body: Center(child: CircularProgressIndicator()));
         }
         if (credentialState is CredentialSuccess) {
           return BlocBuilder<AuthCubit, AuthState>(
@@ -89,6 +90,11 @@ class _AuthPageState extends State<AuthPage> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Text(
+                  'Вход ВМИСиС',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(height: 10),
                 TextField(
                   controller: emailController,
                   decoration: InputDecoration(
@@ -135,19 +141,20 @@ class _AuthPageState extends State<AuthPage> {
             Align(
               alignment: Alignment.bottomCenter,
               child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () =>
-                        Navigator.of(context).pushNamed('/register_page'),
-                    child: const Text('Зарегистрироваться'),
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(ColorTheme.registerColor),
-                      foregroundColor:
-                          MaterialStateProperty.all(ColorTheme.appBarColor),
-                      shape: circulareShape,
-                    ),
-                  )),
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed('/register_page'),
+                  child: const Text('Зарегистрироватся'),
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(ColorTheme.registerColor),
+                    foregroundColor:
+                        MaterialStateProperty.all(ColorTheme.appBarColor),
+                    shape: circulareShape,
+                  ),
+                ),
+              ),
             ),
           ],
         ),

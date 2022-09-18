@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
@@ -42,29 +43,39 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(widget.chatEntity.userName),
-        centerTitle: true,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 1.5,
       ),
-      body: BlocBuilder<ChatCubit, ChatState>(
-        builder: (index, chatState) {
-          if (chatState is ChatLoaded) {
-            return Column(
-              children: [
-                _chatListWidget(chatState),
-                sendMessageTextField(),
-              ],
+      body: SafeArea(
+        child: BlocBuilder<ChatCubit, ChatState>(
+          builder: (index, chatState) {
+            if (chatState is ChatLoaded) {
+              return Column(
+                children: [
+                  _chatListWidget(chatState),
+                  sendMessageTextField(),
+                ],
+              );
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
+          },
+        ),
       ),
     );
   }
 
   Widget _chatListWidget(ChatLoaded chatState) {
+    Timer(const Duration(milliseconds: 100), () {
+      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInQuad);
+    });
     return Expanded(
       child: ListView.builder(
         controller: _scrollController,
@@ -73,11 +84,10 @@ class _ChatPageState extends State<ChatPage> {
           final message = chatState.messages[index];
           if (message.senderID == FirebaseAuth.instance.currentUser!.uid) {
             return _ChatLayout(
-              userName: "Me",
+              userName: '',
               alignName: TextAlign.end,
-              color: Colors.lightGreen[400]!,
-              timeStamp:
-                  DateFormat('hh:mm a').format(message.timeStamp.toDate()),
+              color: Colors.blue[100]!,
+              timeStamp: DateFormat.Hm().format(message.timeStamp.toDate()),
               align: TextAlign.left,
               boxAlign: CrossAxisAlignment.start,
               crossAlign: CrossAxisAlignment.end,
@@ -126,13 +136,8 @@ class _ChatPageState extends State<ChatPage> {
               ),
               child: Row(
                 children: [
-                  const SizedBox(width: 10),
-                  Icon(
-                    Icons.insert_emoticon,
-                    color: Colors.grey[500],
-                  ),
                   const SizedBox(
-                    width: 10,
+                    width: 20,
                   ),
                   Expanded(
                     child: ConstrainedBox(
@@ -143,28 +148,10 @@ class _ChatPageState extends State<ChatPage> {
                           controller: _messageEditingController,
                           maxLines: null,
                           decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Type a message"),
+                              border: InputBorder.none, hintText: "Сообщение"),
                         ),
                       ),
                     ),
-                  ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.link,
-                        color: Colors.grey[500],
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      _messageEditingController.text.isEmpty
-                          ? Icon(
-                              Icons.camera_alt,
-                              color: Colors.grey[500],
-                            )
-                          : const Text(""),
-                    ],
                   ),
                   const SizedBox(
                     width: 15,
@@ -190,13 +177,13 @@ class _ChatPageState extends State<ChatPage> {
                       width: 45,
                       height: 45,
                       decoration: const BoxDecoration(
-                          color: Colors.green,
+                          color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(50))),
                       child: Icon(
                         _messageEditingController.text.isEmpty
                             ? Icons.mic
                             : Icons.send,
-                        color: Colors.white,
+                        color: Colors.blue,
                       ),
                     ),
                   ),
@@ -219,7 +206,7 @@ class _ChatLayout extends StatelessWidget {
   final BubbleNip nip;
   final CrossAxisAlignment crossAlign;
   final TextAlign alignName;
-  final String? userName;
+  final String userName;
   const _ChatLayout(
       {Key? key,
       required this.text,
@@ -229,7 +216,7 @@ class _ChatLayout extends StatelessWidget {
       required this.boxAlign,
       required this.crossAlign,
       required this.alignName,
-      this.userName,
+      required this.userName,
       required this.nip})
       : super(key: key);
 
@@ -253,7 +240,7 @@ class _ChatLayout extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    userName ?? '',
+                    userName,
                     textAlign: alignName,
                     style: const TextStyle(
                         fontSize: 17, fontWeight: FontWeight.bold),

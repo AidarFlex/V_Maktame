@@ -34,6 +34,8 @@ class ImageWidget extends StatelessWidget {
       return Image.file(
         image!,
         fit: BoxFit.cover,
+        width: 80,
+        height: 80,
       );
     }
   }

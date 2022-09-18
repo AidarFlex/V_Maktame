@@ -28,26 +28,3 @@ void snackBarNetwork({String? msg, required BuildContext context}) {
     ),
   );
 }
-
-Widget loadingIndicatorProgressBar({String? data}) {
-  return Scaffold(
-    body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const CircularProgressIndicator(
-            backgroundColor: Colors.orange,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            data ?? "Setting up your account please wait..",
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-          )
-        ],
-      ),
-    ),
-  );
-}

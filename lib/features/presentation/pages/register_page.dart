@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vk_example/common/color_theme.dart';
@@ -77,7 +76,8 @@ class _RegisterPageState extends State<RegisterPage> {
       },
       builder: (context, credentialState) {
         if (credentialState is CredentialLoading) {
-          return loadingIndicatorProgressBar();
+          return const Scaffold(
+              body: Center(child: CircularProgressIndicator()));
         }
         if (credentialState is CredentialSuccess) {
           return BlocBuilder<AuthCubit, AuthState>(
@@ -93,154 +93,93 @@ class _RegisterPageState extends State<RegisterPage> {
         return _bodyWidget();
       },
     );
-    // );
   }
 
   Widget _bodyWidget() {
     final circulareShape = MaterialStateProperty.all(
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)));
-    var headerTextStyle = const TextStyle(
-        fontSize: 14,
-        color: ColorTheme.thirdColor,
-        fontWeight: FontWeight.w300);
     return Scaffold(
-      backgroundColor: ColorTheme.colorTheme,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: ColorTheme.appBarColor,
         elevation: 0,
         foregroundColor: Colors.black,
       ),
-      body: SingleChildScrollView(
-        child: Column(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Stack(
           children: [
-            Container(
-              width: double.infinity,
-              color: ColorTheme.appBarColor,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Информация профиля',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                    ),
-                    const SizedBox(height: 10),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40.0),
-                      child: Text(
-                        'Вашим друзьям будет проще вас найти, если вы укажете информацию о себе.',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w300,
-                          fontSize: 18,
-                          color: ColorTheme.thirdColor,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 40),
-                    TextField(
-                      controller: _emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        labelText: 'Email',
-                      ),
-                      textInputAction: TextInputAction.next,
-                    ),
-                    const SizedBox(height: 10),
-                    TextField(
-                      controller: _usernameController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        labelText: 'Username',
-                      ),
-                      textInputAction: TextInputAction.next,
-                    ),
-                    const SizedBox(height: 10),
-                    TextField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        labelText: 'Пароль',
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    TextField(
-                      controller: _passwordAgainController,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        labelText: 'Повторите пароль',
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _submit(context);
-                          },
-                          child: const Text('Окей'),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                ColorTheme.buttonColor),
-                            foregroundColor: MaterialStateProperty.all(
-                                ColorTheme.appBarColor),
-                            shape: circulareShape,
-                          ),
-                        )),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    RichText(
-                        text: TextSpan(
-                      children: [
-                        TextSpan(
-                            text: 'Уже заригистрировались?',
-                            style: headerTextStyle),
-                        TextSpan(
-                            text: 'Войти',
-                            style: const TextStyle(
-                              color: ColorTheme.firstTextColor,
-                              fontWeight: FontWeight.w300,
-                              fontSize: 14,
-                            ),
-                            recognizer: TapGestureRecognizer()),
-                      ],
-                    )),
-                  ],
+            Column(
+              children: [
+                const SizedBox(height: 64),
+                Text(
+                  'Регистрация',
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
-              ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Email',
+                  ),
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: _usernameController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Username',
+                  ),
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Пароль',
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: _passwordAgainController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    labelText: 'Повторите пароль',
+                  ),
+                ),
+              ],
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Text(
-                      'Українська  English  all languages »',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w300,
-                          color: ColorTheme.thirdColor),
+              child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _submit(context);
+                    },
+                    child: const Text('Окей'),
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(ColorTheme.buttonColor),
+                      foregroundColor:
+                          MaterialStateProperty.all(ColorTheme.appBarColor),
+                      shape: circulareShape,
                     ),
-                  ],
-                ),
-              ),
+                  )),
             ),
           ],
         ),
