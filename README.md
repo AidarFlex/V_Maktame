@@ -1,16 +1,23 @@
-# vk_example
+<h1 align="center">V Maktame</h1>
 
-A new Flutter project.
+<p align="center">
+<img src="https://user-images.githubusercontent.com/24440234/191226014-d293ecfb-ec4c-4066-8e41-8b2a8c137d77.jpg" width="23%"></img>
+<img src="https://user-images.githubusercontent.com/24440234/191226210-1227f3c8-8238-4c7d-89ab-4ba4c7388d91.jpg" width="23%"></img>
+<img src="https://user-images.githubusercontent.com/24440234/191226993-7573eebc-8a5c-4a3f-a3d0-f6a817a29ca4.jpg" width="23%"></img>
+<img src="https://user-images.githubusercontent.com/24440234/191226277-27c4c548-3810-401a-9c97-39537b4767fb.jpg" width="23%"></img>
+<img src="https://user-images.githubusercontent.com/24440234/191227679-94ad8015-5eb5-48b7-9761-395fcd547913.jpg" width="23%"></img>
 
-## Getting Started
+## About
 
-This project is a starting point for a Flutter application.
+This is a simple chat app where you can chat with other user. 
 
-A few resources to get you started if this is your first Flutter project:
+## Technologies that are involved:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Firebase Auth
+- Firebase Firestore
+- Firebase Storage
+- Clean Architecture
+- Dependency Injection, GetIt
+- Equatable
+- Cubit
