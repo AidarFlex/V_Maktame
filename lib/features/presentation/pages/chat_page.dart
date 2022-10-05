@@ -6,10 +6,10 @@ import 'package:intl/intl.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vk_example/features/domain/entities/chat_entity.dart';
-import 'package:vk_example/features/domain/entities/text_message_entity.dart';
-import 'package:vk_example/features/presentation/cubit/chat/chat_cubit.dart';
-import 'package:vk_example/features/presentation/cubit/chat/chat_state.dart';
+import 'package:v_maktame/features/domain/entities/chat_entity.dart';
+import 'package:v_maktame/features/domain/entities/text_message_entity.dart';
+import 'package:v_maktame/features/presentation/cubit/chat/chat_cubit.dart';
+import 'package:v_maktame/features/presentation/cubit/chat/chat_state.dart';
 
 class ChatPage extends StatefulWidget {
   final ChatEntity chatEntity;

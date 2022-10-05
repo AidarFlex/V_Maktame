@@ -3,13 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:vk_example/common/color_theme.dart';
+import 'package:v_maktame/common/color_theme.dart';
 import 'dart:io';
-import 'package:vk_example/features/data/data_sources/firebase_storage_provider.dart';
-import 'package:vk_example/features/domain/entities/post_entity.dart';
-import 'package:vk_example/features/presentation/cubit/post/post_cubit.dart';
-import 'package:vk_example/features/presentation/widgets/common.dart';
-import 'package:vk_example/features/presentation/widgets/image_widget.dart';
+import 'package:v_maktame/features/data/data_sources/firebase_storage_provider.dart';
+import 'package:v_maktame/features/domain/entities/post_entity.dart';
+import 'package:v_maktame/features/presentation/cubit/post/post_cubit.dart';
+import 'package:v_maktame/features/presentation/widgets/common.dart';
+import 'package:v_maktame/features/presentation/widgets/image_widget.dart';
 
 class CreatePostPage extends StatefulWidget {
   const CreatePostPage({Key? key}) : super(key: key);

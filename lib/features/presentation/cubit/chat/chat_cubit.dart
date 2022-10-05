@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vk_example/features/domain/entities/text_message_entity.dart';
-import 'package:vk_example/features/domain/use_cases/get_messages_usecases.dart';
-import 'package:vk_example/features/domain/use_cases/send_text_message_usecase.dart';
-import 'package:vk_example/features/presentation/cubit/chat/chat_state.dart';
+import 'package:v_maktame/features/domain/entities/text_message_entity.dart';
+import 'package:v_maktame/features/domain/use_cases/get_messages_usecases.dart';
+import 'package:v_maktame/features/domain/use_cases/send_text_message_usecase.dart';
+import 'package:v_maktame/features/presentation/cubit/chat/chat_state.dart';
 
 class ChatCubit extends Cubit<ChatState> {
   final SendTextMessageUseCase sendTextMessageUseCase;

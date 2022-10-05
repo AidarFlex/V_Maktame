@@ -1,11 +1,11 @@
-import 'package:vk_example/features/domain/repositories/firebase_repository.dart';
+import 'package:v_maktame/features/domain/repositories/firebase_repository.dart';
 
 class SignOutUseCase {
   final FirebaseRepository repository;
 
   SignOutUseCase({required this.repository});
 
-  Future<void> call()async{
+  Future<void> call() async {
     return repository.signOut();
   }
 }

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:vk_example/features/domain/entities/post_entity.dart';
+import 'package:v_maktame/features/domain/entities/post_entity.dart';
 
 abstract class PostState extends Equatable {
   const PostState();

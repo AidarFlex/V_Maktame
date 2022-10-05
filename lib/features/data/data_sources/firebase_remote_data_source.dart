@@ -1,6 +1,6 @@
-import 'package:vk_example/features/domain/entities/post_entity.dart';
-import 'package:vk_example/features/domain/entities/text_message_entity.dart';
-import 'package:vk_example/features/domain/entities/user_entity.dart';
+import 'package:v_maktame/features/domain/entities/post_entity.dart';
+import 'package:v_maktame/features/domain/entities/text_message_entity.dart';
+import 'package:v_maktame/features/domain/entities/user_entity.dart';
 
 abstract class FirebaseRemoteDataSource {
   Stream<List<PostEntity>> getPosts();

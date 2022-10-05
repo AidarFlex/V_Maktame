@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vk_example/common/color_theme.dart';
-import 'package:vk_example/features/presentation/cubit/auth/auth_cubit.dart';
-import 'package:vk_example/features/presentation/cubit/auth/auth_state.dart';
-import 'package:vk_example/features/presentation/cubit/credential/credential_cubit.dart';
-import 'package:vk_example/features/presentation/cubit/credential/cretential_state.dart';
-import 'package:vk_example/features/presentation/pages/home_page.dart';
-import 'package:vk_example/features/presentation/widgets/common.dart';
+import 'package:v_maktame/common/color_theme.dart';
+import 'package:v_maktame/features/presentation/cubit/auth/auth_cubit.dart';
+import 'package:v_maktame/features/presentation/cubit/auth/auth_state.dart';
+import 'package:v_maktame/features/presentation/cubit/credential/credential_cubit.dart';
+import 'package:v_maktame/features/presentation/cubit/credential/cretential_state.dart';
+import 'package:v_maktame/features/presentation/pages/home_page.dart';
+import 'package:v_maktame/features/presentation/widgets/common.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({Key? key}) : super(key: key);

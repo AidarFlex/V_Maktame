@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vk_example/features/domain/entities/post_entity.dart';
-import 'package:vk_example/features/domain/use_cases/create_new_post_usecase.dart';
-import 'package:vk_example/features/domain/use_cases/get_posts_usecase.dart';
-import 'package:vk_example/features/presentation/cubit/post/post_state.dart';
+import 'package:v_maktame/features/domain/entities/post_entity.dart';
+import 'package:v_maktame/features/domain/use_cases/create_new_post_usecase.dart';
+import 'package:v_maktame/features/domain/use_cases/get_posts_usecase.dart';
+import 'package:v_maktame/features/presentation/cubit/post/post_state.dart';
 
 class PostCubit extends Cubit<PostState> {
   final CreateNewPostUseCase createNewPostUseCase;

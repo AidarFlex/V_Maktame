@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:vk_example/features/domain/entities/text_message_entity.dart';
+import 'package:v_maktame/features/domain/entities/text_message_entity.dart';
 
 class TextMessageModel extends TextMessageEntity {
   const TextMessageModel(

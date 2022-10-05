@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vk_example/features/domain/entities/chat_entity.dart';
-import 'package:vk_example/features/presentation/cubit/auth/auth_cubit.dart';
-import 'package:vk_example/features/presentation/cubit/post/post_cubit.dart';
-import 'package:vk_example/features/presentation/cubit/post/post_state.dart';
-import 'package:vk_example/features/presentation/pages/chat_page.dart';
+import 'package:v_maktame/features/domain/entities/chat_entity.dart';
+import 'package:v_maktame/features/presentation/cubit/auth/auth_cubit.dart';
+import 'package:v_maktame/features/presentation/cubit/post/post_cubit.dart';
+import 'package:v_maktame/features/presentation/cubit/post/post_state.dart';
+import 'package:v_maktame/features/presentation/pages/chat_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

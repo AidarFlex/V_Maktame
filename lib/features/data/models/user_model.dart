@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:vk_example/features/domain/entities/user_entity.dart';
+import 'package:v_maktame/features/domain/entities/user_entity.dart';
 
 class UserModel extends UserEntity {
   const UserModel({
