@@ -21,19 +21,19 @@
 #.vscode/
 
 # Flutter/Dart/Pub related
+ios/firebase_app_id_file.json
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
+/lib/firebase_options.dart
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages
 .pub-cache/
 .pub/
 /build/
-/lib/firebase_options.dart
-ios/firebase_app_id_file.json
-android/app/google-services.json
-ios/Runner/GoogleService-Info.plist
 
 # Web related
 lib/generated_plugin_registrant.dart
